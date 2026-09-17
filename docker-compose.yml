@@ -1,0 +1,53 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-taxapp}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-taxapp}
+      POSTGRES_DB: ${POSTGRES_DB:-taxapp}
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-taxapp}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend
+    # Dev-mode override: --reload + the source mounted straight in, so a code
+    # edit shows up without rebuilding the image. Only requirements.txt or
+    # Dockerfile changes need `docker compose up --build` again. See ADR-011.
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    volumes:
+      - ./backend:/app
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-taxapp}:${POSTGRES_PASSWORD:-taxapp}@db:5432/${POSTGRES_DB:-taxapp}
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      target: deps   # the pre-build stage — has node_modules, not a built app
+    # Dev-mode override: `next dev` + source mounted in, same reasoning as
+    # backend above. The extra /app/node_modules mount keeps the image's
+    # already-installed packages instead of being hidden by the source mount.
+    command: npm run dev
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  db_data:
