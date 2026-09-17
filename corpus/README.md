@@ -1,6 +1,6 @@
 # Source document corpus
 
-Empty on purpose — this is the next concrete task after the hello-world deploy (see `PROGRESS.md`, Phase 0).
+First three documents curated as of 2026-09-17 (see `PROGRESS.md` session log): Section 44ADA (`india/it-act-section-44ada/2025-26.txt`), DTAA Articles 15 & 25 (`treaty/india-us-dtaa/`), and 26 U.S.C. §861(a)(3) (`us/irs-source-of-income/`). Each file's own header documents its source, retrieval method, and any discrepancies found — read that header before treating the text as ground truth.
 
 ## What goes here
 

@@ -68,4 +68,18 @@ Entries 001-010 were made during planning (before any code existed) and are reco
 - **Alternatives considered:** A host venv + `npm install` for local iteration, with Docker only for the "does this deploy" check — works, but means keeping two environments in sync (host and container) for no benefit once hot reload is available.
 - **Trade-off accepted:** The frontend build now targets the Dockerfile's `deps` stage (pre-build, has `node_modules`) rather than the final `runner` stage used for an actual deploy — so this compose file is a *dev* configuration. Before the Phase 0 cloud deploy step (`System_Design_and_Requirements.md` §9.5), we'll need a production-style compose/deploy config that uses the full multi-stage build instead. Tracked in `PROGRESS.md`.
 
+### ADR-012: Persona C's US-side tax figure is a flat-rate placeholder, not an IRC-verified computation
+- **Date:** 2026-09-17
+- **Decision:** In `docs/personas.md`, Persona C (Meera, crosses the DTAA 90-day line) uses an assumed flat 30% effective US federal rate on her US-taxable presumptive income, at an assumed Rs. 83 = $1, to produce an illustrative US-tax figure for testing the Article 25 credit *mechanism*.
+- **Why:** Article 25 relief requires knowing the actual US tax paid, which depends on 26 U.S.C. Section 871(b)/872 and Form 1040-NR mechanics (graduated rates on a nonresident alien's net effectively-connected income) -- a body of US tax law this project has not researched or verified. Inventing a precise figure without that research would violate `WORKING_PRINCIPLES.md` rule 3. A flat, clearly-labeled placeholder lets the credit-capping logic (`min(US tax paid, India tax attributable)`) be tested without pretending the US-side number is verified law.
+- **Alternatives considered:** Doing the full NRA-taxation research now -- rejected for this pass as a real scope expansion; deferred until/unless the tax engine needs to actually compute US tax rather than just apply a credit cap to a given figure.
+- **Source:** `docs/personas.md`, Persona C.
+
+### ADR-013: Persona D apportions presumptive 44ADA income by gross-receipts ratio, not statute
+- **Date:** 2026-09-17
+- **Decision:** In `docs/personas.md`, Persona D (Devika, Article 15(1)(a) fixed-base branch) apportions her lump-sum 44ADA presumptive income to the US-attributable share using the same ratio as her underlying gross receipts by engagement (37.5% in her case).
+- **Why:** Section 44ADA produces one deemed income figure from total gross receipts; it does not decompose by client or engagement, and neither the Income-tax Act nor the India-US DTAA text specifies how to reconcile a presumptive-taxation regime with Article 15(1)(a)'s "income attributable to the fixed base" language. No worked example exists in either primary source. Gross-receipts pro-ration is a reasonable, defensible modeling choice, but it is a choice this project is making, not a verified rule -- documented here so it isn't silently treated as settled law later.
+- **Alternatives considered:** Treating the full presumptive income as either fully attributable or fully non-attributable to the fixed base (simpler, but ignores the treaty's explicit apportionment requirement); none of these alternatives are backed by primary-source guidance either.
+- **Source:** `docs/personas.md`, Persona D.
+
 <!-- New entries go below this line, in the same format, as decisions are made during implementation. -->

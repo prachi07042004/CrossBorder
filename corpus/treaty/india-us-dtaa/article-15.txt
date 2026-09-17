@@ -1,0 +1,24 @@
+---
+jurisdiction: India-US (bilateral tax treaty)
+source: Convention Between the Government of the United States of America and the Government of India for the Avoidance of Double Taxation and the Prevention of Fiscal Evasion with Respect to Taxes on Income -- Treaties and Other International Acts Series 90-1218
+source_url: https://www.irs.gov/pub/irs-trty/india.pdf
+signed: 1989-09-12 (New Delhi)
+entered_into_force: 1990-12-18
+retrieved_date: 2026-09-17
+retrieval_method: Transcribed directly from the scanned original treaty document (printed page "-31-" of the Convention text, user-supplied copy of irs.gov/pub/irs-trty/india.pdf) -- read visually page-by-page, not passed through WebFetch's summarizing model. This supersedes an earlier WebFetch-only extraction of this same article, which produced inconsistent wording across two separate fetches of the identical PDF -- flagged and resolved by going to the scanned source directly.
+protocol_note: The Protocol signed the same day (12 Sept 1989), which forms an integral part of the Convention, touches Article 15 at "III. Ad Articles 7, 10, 11, 12, 15, and 23": it clarifies that income attributable to a permanent establishment or fixed base during its existence remains taxable in that State even if payment is deferred until after the permanent establishment/fixed base has ceased to exist. This is a timing/attribution clarification only -- it does not change the 90-day test or paragraph 1's substantive rule.
+amendment_status: No amendment to Article 15 was found beyond the same-day Protocol noted above. No later amending protocol (post-1990) was located in this review; the IRS continues to publish this same 1989 text as the current treaty document as of the research date (2026-09).
+---
+
+ARTICLE 15
+Independent Personal Services
+
+1. Income derived by a person who is an individual or firm of individuals (other than a company) who is a resident of a Contracting State from the performance in the other Contracting State of professional services or other independent activities of a similar character shall be taxable only in the first-mentioned State except in the following circumstances when such income may also be taxed in the other Contracting State:
+
+   a) if such person has a fixed base regularly available to him in the other Contracting State for the purpose of performing his activities; in that case, only so much of the income as is attributable to that fixed base may be taxed in that other State; or
+
+   b) if the person's stay in the other Contracting State is for a period or periods amounting to or exceeding in the aggregate 90 days in the relevant taxable year.
+
+2. The term "professional services" includes independent scientific, literary, artistic, educational or teaching activities as well as the independent activities of physicians, surgeons, lawyers, engineers, architects, dentists and accountants.
+
+[Source: irs.gov/pub/irs-trty/india.pdf, printed page "-31-" of the Convention text.]

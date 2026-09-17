@@ -1,0 +1,37 @@
+---
+jurisdiction: India-US (bilateral tax treaty)
+source: Convention Between the Government of the United States of America and the Government of India for the Avoidance of Double Taxation and the Prevention of Fiscal Evasion with Respect to Taxes on Income -- Treaties and Other International Acts Series 90-1218
+source_url: https://www.irs.gov/pub/irs-trty/india.pdf
+signed: 1989-09-12 (New Delhi)
+entered_into_force: 1990-12-18
+retrieved_date: 2026-09-17
+retrieval_method: Transcribed directly from the scanned original treaty document (printed pages "-42-" to "-44-" of the Convention text, user-supplied copy of irs.gov/pub/irs-trty/india.pdf) -- read visually page-by-page, not passed through WebFetch's summarizing model.
+protocol_note: Article 25 is touched by an Exchange of Notes accompanying the Convention (same date, 12 Sept 1989, between the U.S. Embassy and India's Ministry of Finance). Both governments agreed that a tax sparing credit is NOT provided in Article 25 at this time, but that the Convention "shall be promptly amended" to add one if the United States later amends its domestic tax-sparing-credit laws, or reaches agreement on a tax sparing credit with any other country. No evidence was found in this review that either triggering condition has occurred, or that Article 25 has since been amended -- this is a live open item worth re-checking if the tax engine's DTAA relief logic ever needs to account for tax sparing.
+amendment_status: No later amending protocol (post-1990) affecting Article 25 was located in this review; the IRS continues to publish this same 1989 text as the current treaty document as of the research date (2026-09).
+scope_note: Paragraph 2 (India's relief mechanism -- the ordinary/foreign tax credit method) is the paragraph directly relevant to this project's India-resident-with-US-income scenarios. Paragraph 1 (the U.S. relief mechanism) is included for completeness but is not the primary path our personas will exercise.
+---
+
+ARTICLE 25
+Relief From Double Taxation
+
+1. In accordance with the provisions and subject to the limitations of the law of the United States (as it may be amended from time to time without changing the general principle hereof), the United States shall allow to a resident or citizen of the United States as a credit against the United States tax on income
+
+   a) the income tax paid to India by or on behalf of such citizen or resident; and
+
+   b) in the case of a United States company owning at least 10 percent of the voting stock of a company which is a resident of India and from which the United States company receives dividends, the income tax paid to India by or on behalf of the distributing company with respect to the profits out of which the dividends are paid.
+
+For the purposes of this paragraph, the taxes referred to in paragraphs 1b) and 2 of Article 2 (Taxes Covered) shall be considered income taxes.
+
+2. a) Where a resident of India derives income which, in accordance with the provisions of this Convention, may be taxed in the United States, India shall allow as a deduction from the tax on the income of that resident an amount equal to the income tax paid in the United States, whether directly or by deduction. Such deduction shall not, however, exceed that part of the income tax (as computed before the deduction is given) which is attributable to the income which may be taxed in the United States.
+
+   b) Further, where such resident is a company by which a surtax is payable in India, the deduction in respect of income tax paid in the United States shall be allowed in the first instance from income tax payable by the company in India and as to the balance, if any, from surtax payable by it in India.
+
+3. For the purposes of allowing relief from double taxation pursuant to this Article, income shall be deemed to arise as follows:
+
+   a) income derived by a resident of a Contracting State which may be taxed in the other Contracting State in accordance with this Convention (other than solely by reason of citizenship in accordance with paragraph 3 of Article 1 (General Scope)) shall be deemed to arise in that other State;
+
+   b) income derived by a resident of a Contracting State which may not be taxed in the other Contracting State in accordance with the Convention shall be deemed to arise in the first-mentioned State.
+
+Notwithstanding the preceding sentence, the determination of the source of income for purposes of this Article shall be subject to such source rules in the domestic laws of the Contracting States as apply for the purpose of limiting the foreign tax credit. The preceding sentence shall not apply with respect to income dealt with in Article 12 (Royalties and Fees for Included Services). The rules of this paragraph shall not apply in determining credits against United States tax for foreign taxes other than the taxes referred to in paragraphs 1b) and 2 of Article 2 (Taxes Covered).
+
+[Source: irs.gov/pub/irs-trty/india.pdf, printed pages "-42-" through "-44-" of the Convention text.]

@@ -1,0 +1,25 @@
+---
+jurisdiction: United States (federal) -- 26 U.S.C. Section 861(a)(3)
+source: Office of the Law Revision Counsel / U.S. Government Publishing Office -- official compiled U.S. Code (govinfo.gov), as supplied by the user (USCODE-2024-title26-subtitleA-chap1-subchapN-partI-sec861.pdf)
+source_url: https://www.govinfo.gov/content/pkg/USCODE-2024-title26/pdf/USCODE-2024-title26-subtitleA-chap1-subchapN-partI-sec861.pdf
+retrieved_date: 2026-09-17
+retrieval_method: Read directly from the user-supplied official govinfo.gov PDF -- transcribed visually, not passed through WebFetch's summarizing model. This confirms, word for word, the text previously obtained via WebFetch from Cornell LII -- no discrepancy found. The earlier reliability caveat (WebFetch not being byte-verified) is resolved for this file.
+relation_to_dtaa_article_15: DISTINCT rule, not a duplicate of the India-US DTAA's Article 15 90-day test (see corpus/treaty/india-us-dtaa/article-15.txt). Section 861(a)(3) is a narrower domestic-law sourcing exception requiring ALL THREE of: (A) 90 days or fewer of U.S. presence, (B) $3,000 or less in aggregate compensation, AND (C) a specific non-US-business employer relationship. DTAA Article 15 is a treaty allocation rule: 90 days OR a fixed base, with no dollar cap and no employer-relationship condition. A person can clear one test and fail the other for the same income -- the tax engine must document explicitly which of these two provisions (if either, or both) it actually implements, rather than treating them as interchangeable.
+scope_decision_pending: Not yet decided whether this provision is in scope for the v1 tax engine. Most freelance/consulting fact patterns in this project are expected to run through the treaty test (Article 15) rather than this narrower domestic sourcing exception -- record the actual decision in DECISIONS.md when made.
+---
+
+26 U.S.C. Section 861(a)(3) -- Personal services
+
+Compensation for labor or personal services performed in the United States; except that compensation for labor or services performed in the United States shall not be deemed to be income from sources within the United States if--
+
+(A) the labor or services are performed by a nonresident alien individual temporarily present in the United States for a period or periods not exceeding a total of 90 days during the taxable year,
+
+(B) such compensation does not exceed $3,000 in the aggregate, and
+
+(C) the compensation is for labor or services performed as an employee of or under a contract with--
+
+   (i) a nonresident alien, foreign partnership, or foreign corporation, not engaged in trade or business within the United States, or
+
+   (ii) an individual who is a citizen or resident of the United States, a domestic partnership, or a domestic corporation, if such labor or services are performed for an office or place of business maintained in a foreign country or in a possession of the United States by such individual, partnership, or corporation.
+
+In addition, compensation for labor or services performed in the United States shall not be deemed to be income from sources within the United States if the labor or services are performed by a nonresident alien individual in connection with the individual's temporary presence in the United States as a regular member of the crew of a foreign vessel engaged in transportation between the United States and a foreign country or a possession of the United States.
