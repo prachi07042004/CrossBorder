@@ -49,6 +49,17 @@ Explanation 4. -- For the purposes of this clause, "working partner" means an in
 
 --- Supporting comparison (not this section, cited for Persona E's reasoning -- see key_finding_for_persona_e above) 
 verification_correction (2026-09-20): same issue as corpus/india/it-act-section-44aa/2025-26.txt -- this file's original "direct visual page-read" claim was written before that step was actually performed (179MB source PDF, over the page-image tool's 100MB limit; only pdftotext extraction had been done). Retroactively confirmed the same day via a qpdf-split page excerpt, read directly -- no discrepancy found, including the Rs. 6,00,000/Rs. 3,00,000 footnoted figures.
+schema_v1_doc_id: india-1961-sec-40b
+schema_v1_jurisdiction: IN
+schema_v1_legal_instrument: Income Tax Act, 1961
+schema_v1_section_ref: 40(b)
+schema_v1_tax_year_start: 2024-25
+schema_v1_tax_year_end: 2025-26
+schema_v1_effective_from: 2024-04-01
+schema_v1_effective_to: 2026-03-31
+schema_v1_retrieval_method: visual_page_read
+schema_v1_visually_confirmed: true
+schema_v1_ambiguous_fields: tax_year_start/effective_from derived from the header's "AY 2025-26 onward" (AY N corresponds to previous year/FY N-1) since the header states only the AY, not the FY, directly -- derivation is standard but not itself independently re-verified against the Act No. 15 of 2024 gazette text
 ---
 
 Section 44AD(2): "Any deduction allowable under the provisions of sections 30 to 38 shall, for the purposes of sub-section (1), be deemed to have been already given full effect to and no further deduction under those sections shall be allowed." [no partner-remuneration proviso]

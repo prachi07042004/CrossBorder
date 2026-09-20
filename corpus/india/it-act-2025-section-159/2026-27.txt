@@ -8,6 +8,17 @@ retrieval_method: located via pdftotext text search, then confirmed by direct vi
 verification_confirmed (2026-09-20, cont.): the 686-page source PDF was re-supplied and is only ~3.1MB -- well under the page-image tool's 100MB limit, unlike the 1961 Act and Rules-1962 PDFs that caused the overstatement problem elsewhere. Re-checked via genuine direct visual page-image read (not pdftotext) as part of closing the ambiguity flagged in the 2026-09-20 review. Word-for-word match against the text below -- no discrepancy found.
 relation_to_1961_act: Section 159 merges the 1961 Act's Section 90 (government-to-government agreements, sub-section (1) here) and Section 90A (specified-association agreements, sub-section (2) here) into a single section. Sub-section (4) is the "more beneficial provision applies" rule, equivalent to 1961 Act Section 90(2) -- this is what underlies Article 25 relief going forward.
 directionality_note: same as corpus/india/it-act-section-90/2025-26.txt -- sub-section (8)'s TRC requirement is worded for "an assessee, not being a resident," i.e. the non-resident-claiming-relief-in-India direction, not directly the resident-claiming-FTC-for-tax-paid-abroad direction this project's personas use.
+schema_v1_doc_id: india-2025-sec-159
+schema_v1_jurisdiction: IN
+schema_v1_legal_instrument: Income-tax Act, 2025 [No. 30 of 2025]
+schema_v1_section_ref: 159
+schema_v1_tax_year_start: 2026-27
+schema_v1_tax_year_end: null
+schema_v1_effective_from: 2026-04-01
+schema_v1_effective_to: null
+schema_v1_retrieval_method: visual_page_read
+schema_v1_visually_confirmed: true
+schema_v1_ambiguous_fields: none
 ---
 
 Agreement with foreign countries or specified territories and adoption by Central Government of agreement between specified associations for double taxation relief.

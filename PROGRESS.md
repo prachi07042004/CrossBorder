@@ -18,7 +18,7 @@ Status legend: `[ ]` not started · `[~]` in progress · `[x]` done
 - [ ] Skeleton deployed to the real cloud target (see `System_Design_and_Requirements.md` §9.5) — **next concrete step**
 - [x] CI workflow running lint + tests on push — confirmed green on GitHub Actions after the initial push (2026-09-17)
 - [x] Source documents curated and version-tagged: Section 44ADA text, DTAA Articles 15 & 25, relevant IRS guidance (§861(a)(3)) — see `corpus/`
-- [ ] `jurisdiction` / `effective_date` / `tax_year` metadata schema finalized against the curated corpus
+- [x] `jurisdiction` / `effective_date` / `tax_year` metadata schema finalized against the curated corpus -- see `corpus/METADATA_SCHEMA.md` and ADR-020
 
 ## Phase 1 — Deterministic tax engine (target: weeks 3-5)
 
@@ -26,7 +26,7 @@ Status legend: `[ ]` not started · `[~]` in progress · `[x]` done
 - [ ] Section 44ADA presumptive income calculation
 - [ ] DTAA Article 15 (90-day test) logic
 - [ ] DTAA Article 25 (foreign tax credit) logic
-- [x] Hand-verified persona scenarios defined (ground truth, checked against primary sources per `docs/WORKING_PRINCIPLES.md` rule 3) -- six personas (A-F), see `docs/personas.md`
+- [x] Hand-verified persona scenarios defined (ground truth, checked against primary sources per `docs/WORKING_PRINCIPLES.md` rule 3) -- seven personas (A-G), see `docs/personas.md`
 - [ ] Unit test suite passing against all defined scenarios, including boundary cases
 
 ## Phase 2 — RAG pipeline (target: weeks 5-8, overlaps Phase 1)
@@ -134,3 +134,10 @@ Add a dated entry each time work happens — a few lines is enough.
 - **Note on process going forward:** at the user's explicit instruction, `git add`/`commit`/`push` are no longer run automatically as part of this kind of review/fix pass -- content and doc changes are made and left uncommitted for the user to review and commit themselves.
 - **Next:** user to review and commit this batch (2026-09-17 through 2026-09-20's corpus/persona/decision work, plus this same-day fix pass); then a Section-58/FY2026-27 persona; then Phase 1 proper (Pydantic models, 44ADA/Section 58 calculation logic against all six personas).
 - **Blocked on:** nothing -- ready for commit.
+
+### 2026-09-20 (cont.) -- Persona G (first FY2026-27 persona) and formal metadata schema
+- Added Persona G (Nikhil): deliberately the same facts as Persona A, dated FY2026-27 under the Income-tax Act, 2025 (Section 58 Table Sl. No. 3), as a regression check across the Act boundary -- same Rs. 16,00,000 result, as expected. Exercises Section 58(11)(b)'s "specified assessee" definition and Section 62(4)'s expanded profession list ("information technology", "company secretary"), neither reached by any other persona. Seven personas total (A-G).
+- Defined and adopted the formal corpus metadata schema (`corpus/METADATA_SCHEMA.md`, ADR-020) -- the last unchecked Phase 0 item. Retrofitted an 11-field `schema_v1_*` structured block onto all 15 existing corpus documents (namespaced to avoid colliding with the existing free-text `jurisdiction:`/`retrieval_method:` keys), computed from what each file's own header already stated -- a normalization pass, not new legal research. Flagged three files' genuine unknowns explicitly (`schema_v1_ambiguous_fields`) rather than guessing: Section 6's Finance-Act-2020 sub-provision dates, and both DTAA articles' effective-date/tax-year applicability.
+- Left one open design question for Phase 2 rather than deciding it now: the DB schema's single `effective_date`/`tax_year` columns don't support a start/end range, which the superseded 1961-Act documents will need once retrieval has to answer a query about a past tax year. Documented in `corpus/METADATA_SCHEMA.md`.
+- **Next:** Phase 0 is now fully checked except the two infra items (production-style compose config, cloud deploy) that have been open since 2026-09-17. Phase 1 proper is otherwise unblocked: Pydantic models, then 44ADA/Section 58 calculation logic, tested against all seven personas.
+- **Blocked on:** nothing.

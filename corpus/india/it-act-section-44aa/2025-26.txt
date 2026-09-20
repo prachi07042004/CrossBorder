@@ -9,6 +9,17 @@ retrieval_method: cross-verified against two independent sources -- (1) verbatim
 relation_to_44ada: Section 44ADA(1) (corpus/india/it-act-section-44ada/2025-26.txt) defines its own eligibility by reference to "a profession referred to in sub-section (1) of section 44AA" -- i.e. this section's sub-section (1) list is the actual gate for who may use 44ADA's presumptive scheme.
 scope_note: Only sub-sections (1) and (2) are curated here (the profession list and the general bookkeeping thresholds) -- these are what the project's personas depend on. Sub-sections (3) and (4) (CBDT rule-making power over the form/manner of records) are included for completeness but are not exercised by any persona.
 verification_correction (2026-09-20): the retrieval_method claim above ("direct visual page-read") was written before that visual read had actually been performed -- the comprehensive 1961 Act PDF is 179MB, over this project's page-image tool's 100MB limit, so the original check for this file was pdftotext text-extraction only. Caught while sourcing Section 6 (see corpus/india/it-act-section-6/2025-26.txt) and fixed the same day: the relevant page range was split into a small standalone PDF (qpdf) and read directly. No discrepancy found -- the extracted text was accurate -- but the earlier metadata overstated what verification step had actually been done. Flagged per this project's own rigor principle rather than silently corrected.
+schema_v1_doc_id: india-1961-sec-44aa
+schema_v1_jurisdiction: IN
+schema_v1_legal_instrument: Income Tax Act, 1961
+schema_v1_section_ref: 44AA(1)-(2)
+schema_v1_tax_year_start: null
+schema_v1_tax_year_end: 2025-26
+schema_v1_effective_from: null
+schema_v1_effective_to: 2026-03-31
+schema_v1_retrieval_method: visual_page_read
+schema_v1_visually_confirmed: true
+schema_v1_ambiguous_fields: tax_year_start/effective_from (base text described as long-standing in this file's own header, no enactment date independently confirmed in this project)
 ---
 
 44AA. Maintenance of accounts by certain persons carrying on profession or business.

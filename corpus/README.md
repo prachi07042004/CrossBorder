@@ -26,6 +26,8 @@ Fifteen documents curated as of 2026-09-20 (started 2026-09-17) (see `PROGRESS.m
 
 Note the deliberate naming split: the 1961 Act's section numbers do **not** map onto the 2025 Act's — e.g. `incometaxindia.gov.in`'s "Section 58" lookup returns a completely different, unrelated 1961-Act provision. Corpus directories are named per-Act (`it-act-section-*` vs `it-act-2025-section-*`) specifically to avoid that collision; never assume a bare "Section N" reference without checking which Act it belongs to. The same trap exists one level down, in the Rules: **Form No. 67** (foreign tax credit statement, under the 1961 Act's Rule 128) becomes **Form No. 44** under the 2025 Act's Rule 76 — a bare "Form 67" reference for anything dated FY2026-27 or later is the wrong form, not just an old label for the right one.
 
+See `METADATA_SCHEMA.md` for the formal `schema_v1_*` metadata fields every document below now carries, alongside its free-text header.
+
 ## What goes here
 
 The curated, version-tagged primary-source documents the RAG pipeline retrieves from — both Acts are kept in parallel (per ADR-009's temporal-tagging design), not overwritten as the law changes:

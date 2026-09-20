@@ -9,6 +9,17 @@ retrieval_method: Read directly from the user-supplied PDF (Income Tax Departmen
 correction_from_previous_version: The proviso wording is corrected here -- "Provided that in case of an assessee where the amount..." (per the official Department text) rather than "Provided that where the amount..." (the earlier WebFetch-derived wording, which dropped "in case of an assessee"). Substance is unchanged; only the earlier version's proviso opening phrase was inexact.
 note_on_finance_act_2023_pdf: The user also supplied a copy of "Finance Act, 2023" (gstcouncil.gov.in mirror) intending to verify Clause 17 (the amending clause) directly. That PDF turned out to be a partial 10-page extract that jumps from gazette-printed page 1 straight to page 56 (Customs Act amendments) -- it omits the entire Income-tax Act chapter (roughly pages 2-55), including Clause 17. It was NOT usable for this verification. This is not a problem in practice, because the Income Tax Department's own official consolidated section text (used for this file) already incorporates the amendment and is a more authoritative source for the *current* text than the amending clause would be on its own -- but if bare Clause 17 text is ever needed (e.g. to see the amendment in isolation from the base section), a complete copy of the Gazette-published Finance Act, 2023 (No. 8 of 2023) would need to be sourced separately.
 known_discrepancy_resolved: An earlier version of this file flagged that the main incometaxindia.gov.in bare-act page showed only the pre-amendment Rs. 50 lakh threshold. That discrepancy is now resolved: the Department's own current per-section export (this file's source) shows the amended Rs. 75 lakh conditional threshold, confirming the amendment is in force and the earlier stale page was simply an outdated snapshot.
+schema_v1_doc_id: india-1961-sec-44ada
+schema_v1_jurisdiction: IN
+schema_v1_legal_instrument: Income Tax Act, 1961
+schema_v1_section_ref: 44ADA
+schema_v1_tax_year_start: 2023-24
+schema_v1_tax_year_end: 2025-26
+schema_v1_effective_from: 2023-04-01
+schema_v1_effective_to: 2026-03-31
+schema_v1_retrieval_method: visual_page_read
+schema_v1_visually_confirmed: true
+schema_v1_ambiguous_fields: none
 ---
 
 44ADA. Special provision for computing profits and gains of profession on presumptive basis.

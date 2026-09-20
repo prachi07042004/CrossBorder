@@ -9,6 +9,17 @@ retrieval_method: located via pdftotext text search, confirmed by direct visual 
 verification_confirmed (2026-09-20): this file's source PDF (Income-tax Rules, 1962 consolidated export) is ~104MB, over this project's page-image tool's 100MB direct-access limit -- the same condition that caused the retrieval_method overstatement caught and fixed in corpus/india/it-act-section-44aa/2025-26.txt, -40b/, and -90/ on this same date. This file's claim was re-checked explicitly rather than assumed correct by association: the source page (p.588, containing Rule 128 in full) was split out with qpdf into a standalone ~184KB PDF and read directly as a rendered page image (not text-extraction). Word-for-word match against the text below -- no discrepancy found. This note closes the ambiguity flagged in the project's 2026-09-20 review (this file, unlike the four files above, had not stated whether the qpdf-split workaround was actually used).
 why_curated: This is the actual procedural mechanism for claiming the Article 25 foreign tax credit in India -- Section 90 (corpus/india/it-act-section-90/2025-26.txt) gives the DTAA legal effect, and this rule is what operationalizes claiming a credit under it, including the Form No. 67 filing requirement referenced by the data model's `tax_computations.form67_required` column. Closes the gap flagged in docs/personas.md for Persona C.
 key_points_for_persona_c: (1) Credit is the LOWER of Indian tax payable on the income and foreign tax paid on it -- sub-rule (5)(i); this matches Article 25(2)(a)'s cap already used in Persona C's reasoning, now with a curated domestic-law source for it, not just the treaty text. (2) Form No. 67 (a statement of foreign income and tax paid/deducted) must be filed, verified, per sub-rule (8)(i). (3) Deadline, per sub-rule (9): on or before the end of the assessment year relevant to the previous year the income was offered to tax, AND the return itself must have been filed within the section 139(1)/139(4) time limits. Missing this deadline is a real compliance/audit-risk-relevant fact this project's Phase 3 audit-risk meter could plausibly flag.
+schema_v1_doc_id: india-1962-rule-128
+schema_v1_jurisdiction: IN
+schema_v1_legal_instrument: Income-tax Rules, 1962
+schema_v1_section_ref: Rule 128
+schema_v1_tax_year_start: 2022-23
+schema_v1_tax_year_end: 2025-26
+schema_v1_effective_from: 2022-04-01
+schema_v1_effective_to: 2026-03-31
+schema_v1_retrieval_method: visual_page_read
+schema_v1_visually_confirmed: true
+schema_v1_ambiguous_fields: effective_from uses sub-rule (9)'s substitution date (w.r.e.f. 1-4-2022), since that's the deadline mechanics Persona C actually depends on; the base rule (sub-rules (1)-(8), (10)) is older (inserted w.e.f. 1-4-2017) -- a single document-level date can't capture both, noted here rather than picking one silently
 ---
 
 128. Foreign Tax Credit.

@@ -6,6 +6,17 @@ retrieved_date: 2026-09-17
 retrieval_method: Read directly from the user-supplied official govinfo.gov PDF -- transcribed visually, not passed through WebFetch's summarizing model. This confirms, word for word, the text previously obtained via WebFetch from Cornell LII -- no discrepancy found. The earlier reliability caveat (WebFetch not being byte-verified) is resolved for this file.
 relation_to_dtaa_article_15: DISTINCT rule, not a duplicate of the India-US DTAA's Article 15 90-day test (see corpus/treaty/india-us-dtaa/article-15.txt). Section 861(a)(3) is a narrower domestic-law sourcing exception requiring ALL THREE of: (A) 90 days or fewer of U.S. presence, (B) $3,000 or less in aggregate compensation, AND (C) a specific non-US-business employer relationship. DTAA Article 15 is a treaty allocation rule: 90 days OR a fixed base, with no dollar cap and no employer-relationship condition. A person can clear one test and fail the other for the same income -- the tax engine must document explicitly which of these two provisions (if either, or both) it actually implements, rather than treating them as interchangeable.
 scope_decision_pending: Not yet decided whether this provision is in scope for the v1 tax engine. Most freelance/consulting fact patterns in this project are expected to run through the treaty test (Article 15) rather than this narrower domestic sourcing exception -- record the actual decision in DECISIONS.md when made.
+schema_v1_doc_id: us-26usc-861a3
+schema_v1_jurisdiction: US
+schema_v1_legal_instrument: 26 U.S.C. (US Code)
+schema_v1_section_ref: 861(a)(3)
+schema_v1_tax_year_start: null
+schema_v1_tax_year_end: null
+schema_v1_effective_from: null
+schema_v1_effective_to: null
+schema_v1_retrieval_method: visual_page_read
+schema_v1_visually_confirmed: true
+schema_v1_ambiguous_fields: effective_from/tax_year fields left null -- this file's header gives no amendment date, and this project's scope_decision_pending note already flags this provision's in-scope status itself as undecided
 ---
 
 26 U.S.C. Section 861(a)(3) -- Personal services

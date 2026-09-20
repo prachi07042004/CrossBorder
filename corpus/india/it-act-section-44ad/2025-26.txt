@@ -9,6 +9,17 @@ retrieval_method: located via pdftotext text search (page 177 of the source PDF)
 why_curated: Closes a real gap flagged in the 2026-09-20 review: docs/personas.md's Persona F concludes Karan (a digital-marketing consultant, not on the 44AA(1)/62(4) profession list) likely falls through to Section 44AD's general-business presumptive scheme instead of a flat rejection -- but that conclusion rested entirely on sub-section (6)'s exclusion list, which had never itself been added to the corpus, only recalled. This file makes that citation real.
 key_finding_for_persona_f: Sub-section (6) confirmed verbatim: "The provisions of this section... shall not apply to-- (i) a person carrying on profession as referred to in sub-section (1) of section 44AA; (ii) a person earning income in the nature of commission or brokerage; or (iii) a person carrying on any agency business." Digital marketing consultancy is not a profession named in Section 44AA(1) (corpus/india/it-act-section-44aa/2025-26.txt), and Karan's work is neither commission/brokerage nor agency business -- none of (i)-(iii) excludes him. Persona F's "falls through to 44AD" conclusion is now primary-source-grounded, not just a reasoned inference. Still open, unchanged: whether a CBDT notification has separately added "digital marketing consultancy" to the 44AA(1)/62(4) list (which would flip the outcome back to 44ADA) has not been checked -- no such notification located in this project.
 scope_note: Sub-sections (1)-(6) and the Explanation are curated here in full (this is the section eligible-business/eligible-assessee definition Section 58's "Sl. No. 1" in the Income-tax Act, 2025 consolidates). No persona currently depends on sub-sections (1)-(5)'s own mechanics (8%/6% rates, the ineligibility-lockout in (4)-(5)) -- only (6)'s exclusion list is load-bearing for this project so far.
+schema_v1_doc_id: india-1961-sec-44ad
+schema_v1_jurisdiction: IN
+schema_v1_legal_instrument: Income Tax Act, 1961
+schema_v1_section_ref: 44AD
+schema_v1_tax_year_start: null
+schema_v1_tax_year_end: 2025-26
+schema_v1_effective_from: null
+schema_v1_effective_to: 2026-03-31
+schema_v1_retrieval_method: visual_page_read
+schema_v1_visually_confirmed: true
+schema_v1_ambiguous_fields: tax_year_start/effective_from (this file's header does not date the 8%/6% rates or the sub-section (6) exclusion list to a specific amendment; not independently researched in this project since only sub-section (6) is load-bearing here)
 ---
 
 44AD. Special provision for computing profits and gains of business on presumptive basis.

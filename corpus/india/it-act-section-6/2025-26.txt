@@ -8,6 +8,17 @@ retrieved_date: 2026-09-20
 retrieval_method: located via pdftotext text search, confirmed by direct visual page-read (qpdf-split excerpt of the source PDF, which exceeds the page-image tool's 100MB direct-access limit) -- no discrepancy found.
 why_curated_and_scope_boundary: THIS FILE IS NOT WIRED INTO ANY COMPUTATION. Per ADR-017 (DECISIONS.md), residential status is an explicit out-of-scope INPUT for this project's v1 -- every persona simply states "India resident" as a given fact, and this project does not implement Section 6's residency-determination logic. This file exists solely so that one specific claim is citable: the one-time sanity check (below) confirming Persona C's stated facts (110 days in the US) are not self-contradictory with her being an Indian resident that year. Do not treat this file's presence as evidence that residency determination has been built -- it has not.
 persona_c_sanity_check: Persona C (Meera) states 110 aggregate days present in the US in the relevant tax year, with the rest of her time implicitly in India (no third country mentioned). That leaves ~255 days in India, which comfortably clears the 182-day threshold in sub-clause (1)(a) on its own -- she is unambiguously resident under the most basic test, regardless of the 60-day/365-day alternative test in (1)(c), which becomes moot once (1)(a) is satisfied. Her premise holds. (Not checked: the further "not ordinarily resident" sub-classification in sub-clause (6), which affects how *foreign-source* income is taxed for NOR individuals -- not checked because sub-clause (6)'s own Explanation excludes "income derived from a business controlled in or a profession set up in India" from "income from foreign sources," and Meera's US-client income is exactly that -- income from her India-based consultancy profession, not foreign-source investment-type income -- so the NOR distinction would not change her position even if reached.)
+schema_v1_doc_id: india-1961-sec-6
+schema_v1_jurisdiction: IN
+schema_v1_legal_instrument: Income Tax Act, 1961
+schema_v1_section_ref: 6
+schema_v1_tax_year_start: null
+schema_v1_tax_year_end: 2025-26
+schema_v1_effective_from: null
+schema_v1_effective_to: 2026-03-31
+schema_v1_retrieval_method: visual_page_read
+schema_v1_visually_confirmed: true
+schema_v1_ambiguous_fields: tax_year_start/effective_from -- this file's own header already flags the Finance Act 2020-era sub-provisions ((1A), Explanation 1(b), (6)(c)/(d)) as not independently dated; base sub-clause (1)(a)/(c) is long-standing and also not independently dated in this project
 ---
 
 6. Residence in India.

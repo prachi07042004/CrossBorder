@@ -10,6 +10,17 @@ why_curated: This is the domestic-law provision that actually gives the India-US
 scope_note: Only Section 90 is curated (the government-to-government agreement route, which is what applies to the India-US DTAA). Section 90A (adoption of agreements between specified associations, not government-to-government) is a parallel, narrower mechanism not relevant to a bilateral treaty like the India-US DTAA and is not curated.
 directionality_note: Sub-section (4)'s tax-residency-certificate (TRC) requirement is worded for "an assessee, not being a resident" -- i.e. it is the condition for a *non*-resident (of India) claiming DTAA relief on India-source income. It does not, on its face, describe the situation in this project's personas (Indian residents claiming relief in India for tax paid in the US on US-source income under Article 25(2)(a)). Flagged so this isn't misapplied to the wrong direction of relief -- not yet resolved whether an analogous certificate requirement applies to the resident-claiming-FTC direction -- Rule 128 (corpus/india/it-rules-rule-128/2025-26.txt) governs that claim procedurally and does not itself impose a TRC-style certificate requirement, so as curated, no such requirement has been found for this direction; not the same as having affirmatively ruled one out.
 verification_correction (2026-09-20): same issue as corpus/india/it-act-section-44aa/2025-26.txt and corpus/india/it-act-section-40b/2025-26.txt -- the original "direct visual page-read" claim for this file was written before that step was actually performed. Retroactively confirmed the same day via a qpdf-split page excerpt -- no discrepancy found.
+schema_v1_doc_id: india-1961-sec-90
+schema_v1_jurisdiction: IN
+schema_v1_legal_instrument: Income Tax Act, 1961
+schema_v1_section_ref: 90
+schema_v1_tax_year_start: null
+schema_v1_tax_year_end: 2025-26
+schema_v1_effective_from: null
+schema_v1_effective_to: 2026-03-31
+schema_v1_retrieval_method: visual_page_read
+schema_v1_visually_confirmed: true
+schema_v1_ambiguous_fields: tax_year_start/effective_from (base section described as long-standing in this file's own header, no enactment date independently confirmed in this project)
 ---
 
 90. Agreement with foreign countries or specified territories.

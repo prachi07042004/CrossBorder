@@ -2,7 +2,7 @@
 
 Ground-truth test personas for Phase 1 (the deterministic tax engine). Each persona's expected output is worked by hand against the primary-source text in `corpus/`, per `WORKING_PRINCIPLES.md` rule 3 -- not against a summary or a guessed formula. Where a number depends on something we haven't verified yet, that gap is stated explicitly rather than filled in with an invented figure.
 
-Currency: INR unless noted. FY2025-26 (AY 2026-27) is the assumed tax year for all six personas below -- the corpus's 44ADA text is confirmed current through this year (see `corpus/india/it-act-section-44ada/2025-26.txt`). **This is a prior-year snapshot, not the project's default going forward**: the current tax year is governed by the Income-tax Act, 2025 (see ADR-016 in `DECISIONS.md`), and any new persona added from here on should default to that Act unless it specifically needs to test 1961-Act-era behavior (e.g. a return being filed for FY2025-26).
+Currency: INR unless noted. FY2025-26 (AY 2026-27) is the assumed tax year for Personas A-F below -- the corpus's 44ADA text is confirmed current through this year (see `corpus/india/it-act-section-44ada/2025-26.txt`). Personas A-F are a **prior-year snapshot, not the project's default going forward**: the current tax year is governed by the Income-tax Act, 2025 (see ADR-016 in `DECISIONS.md`). Persona G, added 2026-09-20, is the project's first persona dated FY2026-27 under that Act -- any new persona added from here on should default to it unless it specifically needs to test 1961-Act-era behavior (e.g. a return being filed for FY2025-26).
 
 Each persona is designed to isolate one specific rule boundary, not to be a "realistic" composite -- that's deliberate, so a wrong answer points at exactly one piece of logic.
 
@@ -102,6 +102,20 @@ What this tests: the "reject a false premise" path from the Phase 5 eval plan, b
 
 ---
 
+## Persona G -- Nikhil: clean baseline under the Income-tax Act, 2025 (FY2026-27)
+
+IT/technical consultant, India resident, serves a US client entirely remotely -- deliberately the same fact pattern as Persona A, dated one tax year later under the new Act, so any difference in outcome points at the Act/table change itself rather than at the underlying facts.
+
+- FY2026-27 gross receipts: Rs. 32,00,000 (identical to Persona A). Zero days physically present in the US. No US fixed base.
+- **Eligibility -- "specified profession"** (`corpus/india/it-act-2025-section-62/2026-27.txt`, sub-section (4)): the named list is legal, medical, engineering, architectural, accountancy, technical consultancy, interior decoration, information technology, or company secretary, or Board-notified. Nikhil's work fits both "technical consultancy" and, explicitly now, "information technology" -- a profession that had to be read into the 1961 Act's "technical consultancy" catch-all for Persona A is now named outright. **Eligible.**
+- **Eligibility -- "specified assessee"** (`corpus/india/it-act-2025-section-58/2026-27.txt`, sub-section (11)(b)): "an individual or a firm, other than a limited liability partnership, who is a resident in India." Nikhil is an individual, India resident. **Eligible.**
+- **Section 58(2), Table Sl. No. 3**: Rs. 32,00,000 <= Rs. 50,00,000 base threshold -- qualifies without needing the Rs. 75,00,000 cash proviso (the same boundary logic as 44ADA's, now expressed as column D of the Table rather than a proviso to sub-section (1)). Presumptive income = 50% x Rs. 32,00,000 = **Rs. 16,00,000** -- identical to Persona A's figure, as expected: same facts, same substantive rule, different Act.
+- **DTAA / Article 15** (`corpus/india/it-act-2025-section-159/2026-27.txt`, successor to Section 90): no fixed base, 0 days present in the US -- neither Article 15(1)(a) nor (b) is triggered, so the income is taxable only in India, same conclusion as Persona A. Section 159 (not Section 90) is the operative domestic-law provision giving the treaty effect for this tax year.
+- **Article 25 relief**: not applicable -- no US tax paid.
+
+What this tests: that Section 58's Table-based computation produces the same result as 44ADA's proviso-based computation for a fact pattern that qualifies cleanly under either Act -- a direct regression check across the Act boundary, not just a new scenario. If a future implementation ever produces a different figure for Persona A vs. Persona G, the bug is in Act-selection/temporal-filtering logic, not in either computation's own arithmetic (both are simple, unambiguous 50%-of-receipts cases). Also exercises Section 58(11)(b)'s "specified assessee" definition and Section 62(4)'s expanded profession list, neither of which any other persona reaches.
+
+
 ## Summary
 
 | Persona | Gross receipts | 44ADA outcome | Article 15 branch | Notes |
@@ -113,10 +127,10 @@ What this tests: the "reject a false premise" path from the Phase 5 eval plan, b
 | D -- Devika | Rs. 40,00,000, 45 US days, fixed base | Qualifies, Rs. 20,00,000 | 15(1)(a) -- fixed base, apportioned | Apportionment is a documented modeling choice, not a verified rule |
 | E -- Sharma & Assoc. | Rs. 42,00,000, partnership firm | Qualifies, Rs. 21,00,000 (no further deduction) | N/A (no US presence) | Partner remuneration not separately deductible on top of 44ADA -- ADR-014 |
 | F -- Karan | Rs. 28,00,000, digital marketing | 44ADA does NOT apply (profession not listed) -- likely 44AD instead, Rs. 1,68,000 | N/A (no US presence) | False-premise/misrouting test, not resolved to case-law certainty |
+| G -- Nikhil (FY2026-27) | Rs. 32,00,000 | Qualifies under Section 58 Sl. No. 3, Rs. 16,00,000 | Neither triggers | First Income-tax Act, 2025 persona -- regression check against Persona A |
 
 ## Still open (not blocking, tracked for later)
 
-- **No persona yet exercises the Income-tax Act, 2025** (Section 58, effective FY2026-27 onward -- see `corpus/india/it-act-2025-section-58/2026-27.txt`). All six personas above are dated FY2025-26 under the 1961 Act. Given the corpus now has full Section 58/35(e)/62 coverage, a parallel FY2026-27 persona (most usefully, a Section-58-Sl.-No.-3 equivalent of Persona A) is the natural next addition.
 - **No persona tests entity/residency-based false-premise rejection.** 44ADA explicitly excludes LLPs ("a partnership firm other than a limited liability partnership") and non-residents ("who is a resident in India") -- neither exclusion is exercised by any current persona. Persona F tests profession-based misrouting; an LLP or non-resident case would test a different rejection path.
 - **No persona exercises 44ADA(4)'s audit-trigger branch** -- every current persona accepts the deemed 50% presumptive figure; none claims a lower actual profit (which, combined with total income exceeding the exemption limit, requires books of account and a Section 44AB audit).
 - Exact boundary-value personas (gross receipts exactly Rs. 50,00,000 or Rs. 75,00,000; exactly 90 days present) are covered by the boundary notes above but not as standalone test cases.
@@ -124,6 +138,7 @@ What this tests: the "reject a false premise" path from the Phase 5 eval plan, b
 - CBDT's separately-notified-professions list beyond Section 44AA(1)/Section 62(4)'s named list has not been checked -- relevant to Persona F's certainty (whether digital marketing consultancy could be added by notification) and, in principle, to any profession not on the named list.
 
 ### Resolved since the previous version of this file
+- **Persona G added** (`docs/personas.md`, 2026-09-20): the project's first FY2026-27 / Income-tax Act, 2025 persona, deliberately mirroring Persona A's facts to serve as a regression check across the Act boundary. Seven personas total now (A-G).
 - **The four Income-tax Act, 2025 files' verification-method question is resolved.** The source PDF (`Income_Tax_Act_2025_as_amended_by_FA_Act_2026.pdf`) was re-supplied and is only ~3.1MB (well under the 100MB tool limit that caused the Rule 128/44AA/40(b)/90 overstatement elsewhere), so the risk flagged for these four never actually applied -- confirmed by re-checking all four (Section 58, 35(e), 62, 159) via genuine visual page-image read. No discrepancy found. One new, non-blocking observation surfaced: Section 58(5) and (7) both cross-reference "sub-section (1)" where the computation actually happens in sub-section (2) -- a genuine drafting artifact in the Act (confirmed on the page image, not a transcription slip), documented in that corpus file rather than silently worked around.
 - **Persona F's core citation (Section 44AD(6)'s exclusion list) is now actually curated and primary-source confirmed** (`corpus/india/it-act-section-44ad/2025-26.txt`) -- previously the conclusion rested on a recalled paraphrase of the subsection, never verified against the Act text the way every other persona's claims were. No discrepancy found; the conclusion is unchanged, but it's now evidenced rather than asserted.
 - **Rule 128's verification-method ambiguity is resolved.** The 2026-09-20 review noted that Rule 128's source PDF (~104MB) is over the page-image tool's 100MB limit, the same condition that caused three other files' "direct visual page-read" claims to be overstated -- but Rule 128's header didn't say whether the qpdf-split workaround had actually been used. It has now been explicitly re-confirmed via qpdf-split page image read; word-for-word match, no discrepancy.

@@ -9,6 +9,17 @@ retrieval_method: Transcribed directly from the scanned original treaty document
 protocol_note: Article 25 is touched by an Exchange of Notes accompanying the Convention (same date, 12 Sept 1989, between the U.S. Embassy and India's Ministry of Finance). Both governments agreed that a tax sparing credit is NOT provided in Article 25 at this time, but that the Convention "shall be promptly amended" to add one if the United States later amends its domestic tax-sparing-credit laws, or reaches agreement on a tax sparing credit with any other country. No evidence was found in this review that either triggering condition has occurred, or that Article 25 has since been amended -- this is a live open item worth re-checking if the tax engine's DTAA relief logic ever needs to account for tax sparing.
 amendment_status: No later amending protocol (post-1990) affecting Article 25 was located in this review; the IRS continues to publish this same 1989 text as the current treaty document as of the research date (2026-09).
 scope_note: Paragraph 2 (India's relief mechanism -- the ordinary/foreign tax credit method) is the paragraph directly relevant to this project's India-resident-with-US-income scenarios. Paragraph 1 (the U.S. relief mechanism) is included for completeness but is not the primary path our personas will exercise.
+schema_v1_doc_id: treaty-in-us-dtaa-art25
+schema_v1_jurisdiction: IN-US-DTAA
+schema_v1_legal_instrument: India-US DTAA (1989)
+schema_v1_section_ref: Article 25
+schema_v1_tax_year_start: null
+schema_v1_tax_year_end: null
+schema_v1_effective_from: 1990-12-18
+schema_v1_effective_to: null
+schema_v1_retrieval_method: visual_page_read
+schema_v1_visually_confirmed: true
+schema_v1_ambiguous_fields: same as article-15.txt: effective_from is treaty entry-into-force, not a separately confirmed first-applicable Indian AY; tax_year fields not meaningful for a treaty document in this schema, left null
 ---
 
 ARTICLE 25

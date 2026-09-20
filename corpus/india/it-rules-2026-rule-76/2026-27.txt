@@ -9,6 +9,17 @@ retrieval_method: located via pdftotext text search, confirmed by direct visual 
 critical_renumbering_trap: this is not just a rule-number change (128 -> 76). The FORM NUMBER itself changes too: "Form No. 67" under the 1961-Act regime becomes **"Form No. 44"** under the 2025-Act regime, and a new "Form No. 45" is introduced for the disputed-tax-settlement intimation (a role the old rule handled inline within Rule 128(4) without a separate form). A system, or a person, referring to "Form 67" for anything dated FY2026-27 or later is referring to the wrong form. This is the same category of trap as the Section-58 collision already documented in corpus/README.md, and that note has been updated to mention this one too.
 procedural_change_of_substance: the filing deadline changed, not just its cross-reference. Rule 128(9) (1961 Rules) used "on or before the end of the assessment year relevant to the previous year." Rule 76(12) (2026 Rules) uses "within twelve months from the end of the relevant tax year" -- these are not guaranteed to produce the same date in every case and this project has not checked whether they're equivalent; flagged rather than assumed identical.
 relation_to_section_90_159: sub-rule (3)(a) here references section 159 (this project's corpus/india/it-act-2025-section-159/2026-27.txt) the same way Rule 128(2)(a) referenced sections 90/90A -- confirms the enabling-provision chain (treaty -> Section 159 -> Rule 76 -> Form 44) is intact under the new Act, mirroring the 1961-Act chain (treaty -> Section 90 -> Rule 128 -> Form 67).
+schema_v1_doc_id: india-2026-rule-76
+schema_v1_jurisdiction: IN
+schema_v1_legal_instrument: Income-tax Rules, 2026
+schema_v1_section_ref: Rule 76
+schema_v1_tax_year_start: 2026-27
+schema_v1_tax_year_end: null
+schema_v1_effective_from: 2026-04-01
+schema_v1_effective_to: null
+schema_v1_retrieval_method: visual_page_read
+schema_v1_visually_confirmed: true
+schema_v1_ambiguous_fields: none
 ---
 
 76. Foreign tax credit.
