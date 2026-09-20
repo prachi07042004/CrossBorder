@@ -158,6 +158,58 @@ def test_article_25_pending_inputs_for_persona_d():
     assert relief.credit_amount is None
 
 
+def test_article_25_computed_when_both_inputs_supplied():
+    # Persona C's exposure, with hypothetical (not project-verified) US tax
+    # paid and India tax attributable figures supplied directly -- this is
+    # how the future slab-rate/NRA calculators will plug in once they exist.
+    exposure = compute_article_15_exposure(
+        _article15_input(
+            persona_label="C -- Meera",
+            presumptive_income=Decimal(2250000),
+            gross_receipts=Decimal(4500000),
+            us_days_present=110,
+        )
+    )
+    relief = compute_article_25_relief(
+        exposure,
+        us_tax_paid=Decimal(675000),
+        india_tax_attributable=Decimal(900000),
+    )
+    assert relief.computation_status == "computed"
+    assert relief.us_tax_paid == Decimal(675000)
+    assert relief.india_tax_attributable == Decimal(900000)
+    assert relief.credit_amount == Decimal(675000)  # min(6,75,000, 9,00,000)
+    assert relief.pending_reason is None
+
+
+def test_article_25_credit_capped_at_the_lower_of_the_two_inputs():
+    exposure = compute_article_15_exposure(
+        _article15_input(us_days_present=90, presumptive_income=Decimal(1000000))
+    )
+    relief = compute_article_25_relief(
+        exposure,
+        us_tax_paid=Decimal(500000),
+        india_tax_attributable=Decimal(300000),  # lower this time -- India's cap governs
+    )
+    assert relief.credit_amount == Decimal(300000)
+
+
+def test_article_25_still_pending_when_only_one_input_supplied():
+    exposure = compute_article_15_exposure(
+        _article15_input(us_days_present=90, presumptive_income=Decimal(1000000))
+    )
+    relief = compute_article_25_relief(exposure, us_tax_paid=Decimal(300000))
+    assert relief.computation_status == "pending_inputs"
+    assert relief.us_tax_paid == Decimal(300000)  # supplied value carried through, not dropped
+    assert relief.india_tax_attributable is None
+    assert relief.credit_amount is None
+    assert "Still missing: India tax attributable" in relief.pending_reason
+    # US tax paid was supplied -- it should not appear in the *missing* list,
+    # even though the phrase itself still appears earlier in the fixed
+    # formula sentence ("Credit = min(US tax paid, ...)").
+    assert "needs 26 U.S.C." not in relief.pending_reason
+
+
 def test_fixed_base_attributable_cannot_exceed_gross_receipts():
     import pytest
     from pydantic import ValidationError

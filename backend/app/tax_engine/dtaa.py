@@ -1,9 +1,16 @@
 """India-US DTAA Article 15 (Independent Personal Services) exposure, and the
 Article 25 (Relief From Double Taxation) mechanism.
 
-Article 15 is fully computed by this module. Article 25 is only
-*represented* -- see Article25ReliefResult's docstring in models.py for why
-the actual credit figure is left pending rather than guessed.
+Article 15 is fully computed by this module. Article 25's credit is computed
+too, but ONLY when the caller supplies both us_tax_paid and
+india_tax_attributable as optional arguments to compute_article_25_relief()
+-- neither is computed by this project yet (US NRA taxation under 26 U.S.C.
+Section 871(b)/872 and India's progressive slab-rate calculation are both
+separate, not-yet-started work; see ADR-012 and PROGRESS.md). Taking them as
+optional inputs rather than hardcoding "always None" means the two future
+calculators just need to be wired in as callers of this function later --
+this function's own logic won't need to change. Until then, it reports
+exactly which of the two inputs is still missing.
 
 Scope, matching Personas C and D in docs/personas.md exactly:
 - Article 15(1)(b), the 90-day test: aggregate US days >= 90 exposes the
@@ -85,7 +92,17 @@ def compute_article_15_exposure(data: Article15Input) -> Article15Result:
     )
 
 
-def compute_article_25_relief(article_15_result: Article15Result) -> Article25ReliefResult:
+def compute_article_25_relief(
+    article_15_result: Article15Result,
+    us_tax_paid: Decimal | None = None,
+    india_tax_attributable: Decimal | None = None,
+) -> Article25ReliefResult:
+    """us_tax_paid and india_tax_attributable are optional -- omit either (or
+    both) and the result reports which is still missing rather than
+    computing a credit. Supply both once they're available from their own
+    (not-yet-built) calculators and this function computes the actual
+    Article 25(2)(a) credit: min(us_tax_paid, india_tax_attributable).
+    """
     if article_15_result.us_taxable_income == 0:
         return Article25ReliefResult(
             persona_label=article_15_result.persona_label,
@@ -95,17 +112,39 @@ def compute_article_25_relief(article_15_result: Article15Result) -> Article25Re
             citation=ARTICLE_25_CITATION,
         )
 
+    if us_tax_paid is not None and india_tax_attributable is not None:
+        return Article25ReliefResult(
+            persona_label=article_15_result.persona_label,
+            relief_applicable=True,
+            us_taxable_income=article_15_result.us_taxable_income,
+            computation_status="computed",
+            us_tax_paid=us_tax_paid,
+            india_tax_attributable=india_tax_attributable,
+            credit_amount=min(us_tax_paid, india_tax_attributable),
+            citation=ARTICLE_25_CITATION,
+        )
+
+    missing = []
+    if us_tax_paid is None:
+        missing.append(
+            "US tax paid (needs 26 U.S.C. Section 871(b)/872 + Form 1040-NR research not yet done, ADR-012)"
+        )
+    if india_tax_attributable is None:
+        missing.append(
+            "India tax attributable to the US-taxable income (needs the progressive slab-rate computation, "
+            "separate not-yet-started Phase 1 work)"
+        )
+
     return Article25ReliefResult(
         persona_label=article_15_result.persona_label,
         relief_applicable=True,
         us_taxable_income=article_15_result.us_taxable_income,
         computation_status="pending_inputs",
+        us_tax_paid=us_tax_paid,
+        india_tax_attributable=india_tax_attributable,
         pending_reason=(
             "Credit = min(US tax paid, India tax attributable to the US-taxable income), per Article 25(2)(a). "
-            "Neither input is computable yet: US tax paid needs 26 U.S.C. Section 871(b)/872 + Form 1040-NR "
-            "research not yet done (ADR-012); India tax attributable needs the progressive slab-rate computation, "
-            "separate not-yet-started Phase 1 work. Both are deliberately left None rather than estimated -- see "
-            "docs/personas.md Persona C."
+            "Still missing: " + "; ".join(missing) + ". See docs/personas.md Persona C."
         ),
         citation=ARTICLE_25_CITATION,
     )

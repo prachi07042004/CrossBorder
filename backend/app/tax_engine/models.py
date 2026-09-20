@@ -250,33 +250,42 @@ class Article15Result(BaseModel):
 
 
 class Article25ReliefResult(BaseModel):
-    """Represents, but does not fully compute, Article 25(2)(a) relief.
+    """Represents Article 25(2)(a) relief, and computes it when possible.
 
-    Per Persona C's own file in docs/personas.md: the credit is
-    min(US tax paid, India tax attributable to the US-taxable income), and
-    right now this engine can supply neither half of that cap with a
-    verified figure. This result type makes that gap explicit rather than
-    inventing a number -- WORKING_PRINCIPLES.md rule 4.
+    The credit is min(US tax paid, India tax attributable to the US-taxable
+    income). compute_article_25_relief() takes both as OPTIONAL arguments --
+    right now nothing in this project can supply either with a verified
+    figure (US NRA taxation under 26 U.S.C. Section 871(b)/872, and India's
+    progressive slab-rate computation, are both separate not-yet-started
+    work), so both are omitted at every call site today and
+    computation_status comes back 'pending_inputs'. Once either or both
+    calculators exist, their output can be passed straight in -- this model
+    and compute_article_25_relief()'s own logic don't need to change. See
+    docs/personas.md Persona C and WORKING_PRINCIPLES.md rule 4 (never
+    invent a figure that isn't there yet).
     """
 
     persona_label: str
     relief_applicable: bool = Field(description="False if us_taxable_income is 0 -- no double taxation to relieve.")
     us_taxable_income: Decimal = Field(description="Carried over from the Article15Result this was computed from.")
     computation_status: str = Field(
-        description="'not_applicable' (relief_applicable is False), or 'pending_inputs' -- both cap inputs "
-        "(US tax paid, India tax attributable) are unverified, see pending_reason."
+        description="'not_applicable' (relief_applicable is False), 'pending_inputs' (relief applies but at least "
+        "one of us_tax_paid/india_tax_attributable was not supplied -- see pending_reason for which), or "
+        "'computed' (both were supplied -- see credit_amount)."
     )
     pending_reason: str | None = None
     us_tax_paid: Decimal | None = Field(
-        default=None, description="Always None in this increment -- needs 26 U.S.C. Section 871(b)/872 + Form "
-        "1040-NR research not yet done (ADR-012)."
+        default=None, description="Whatever was passed to compute_article_25_relief() -- None if not supplied. "
+        "Nothing in this project can currently supply a verified figure here; needs 26 U.S.C. Section 871(b)/872 "
+        "+ Form 1040-NR research not yet done (ADR-012)."
     )
     india_tax_attributable: Decimal | None = Field(
-        default=None, description="Always None in this increment -- needs India's progressive slab-rate "
-        "computation, separate not-yet-started Phase 1 work."
+        default=None, description="Whatever was passed to compute_article_25_relief() -- None if not supplied. "
+        "Nothing in this project can currently supply a verified figure here; needs India's progressive "
+        "slab-rate computation, separate not-yet-started Phase 1 work."
     )
     credit_amount: Decimal | None = Field(
-        default=None, description="Always None in this increment -- cannot be computed until both cap inputs "
-        "above are available."
+        default=None, description="min(us_tax_paid, india_tax_attributable) -- set only when computation_status "
+        "is 'computed', i.e. both inputs above were supplied."
     )
     citation: str
