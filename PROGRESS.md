@@ -14,7 +14,7 @@ Status legend: `[ ]` not started · `[~]` in progress · `[x]` done
 - [x] Working principles documented (`docs/WORKING_PRINCIPLES.md`)
 - [x] Docker Compose skeleton (db + backend + frontend) — hello-world, not yet deployed to cloud
 - [x] Local dev workflow switched to volume-mounted hot reload (ADR-011) — `docker compose up` (no `--build`) now picks up code edits
-- [x] Production-style compose/deploy config -- `docker-compose.yml` split into a production-shaped base (frontend `runner` stage, no source mounts) plus `docker-compose.override.yml` for dev-only settings (ADR-021). **Confirmed working** -- `docker compose config`'s resolved merge matches the design, and `docker compose down` + `up --build` confirmed dev hot reload still works unchanged (2026-09-20). The production-only path (`-f docker-compose.yml up -d --build`) is still unexercised.
+- [x] Production-style compose/deploy config -- `docker-compose.yml` split into a production-shaped base (frontend `runner` stage, no source mounts) plus `docker-compose.override.yml` for dev-only settings (ADR-021). **Confirmed working, both paths (2026-09-20)** -- `docker compose config`'s resolved merge matches the design; `docker compose down` + `up --build` confirmed dev hot reload still works unchanged; `docker compose -f docker-compose.yml up -d --build` confirmed the production shape builds and serves correctly (frontend `runner` stage at `localhost:3000`, backend responding at `localhost:8000`).
 - [ ] Skeleton deployed to the real cloud target (see `System_Design_and_Requirements.md` §9.5) — **next concrete step**
 - [x] CI workflow running lint + tests on push — confirmed green on GitHub Actions after the initial push (2026-09-17)
 - [x] Source documents curated and version-tagged: Section 44ADA text, DTAA Articles 15 & 25, relevant IRS guidance (§861(a)(3)) — see `corpus/`
@@ -194,7 +194,8 @@ Add a dated entry each time work happens — a few lines is enough.
 ### 2026-09-20 (cont.) -- Docker Compose base+override split confirmed working against real Docker
 - User ran `docker compose config` on their own machine; the resolved merge matched ADR-021's description exactly (`backend`'s `--reload` command and bind mount, `frontend`'s `target: deps`/`npm run dev`/bind mounts, `db` untouched by the override). This closes the "validated YAML syntax only, never run" caveat from the previous entry.
 - User then stopped the previously-running dev containers (`docker compose down`) and brought them back up with `docker compose up --build`; confirmed hot reload on both backend and frontend still works exactly as before the split. ADR-021 updated in place to record this rather than left as an open caveat.
-- **Not yet done:** the production-only path (`docker compose -f docker-compose.yml up -d --build`, excluding the override) hasn't been run yet -- that's the remaining check before the actual cloud deploy step (§9.5).
+- Also ran the production-only path the same day: `docker compose -f docker-compose.yml up -d --build`, explicitly excluding the override. All three containers built and started cleanly; confirmed both `localhost:3000` (frontend, built `runner` stage, no dev-mode indicators) and `localhost:8000` (backend) responded correctly -- the last unexercised piece from ADR-021 is now closed too.
+- **Both paths this ADR describes (dev via plain `docker compose up`, production via the explicit `-f` exclusion) are now confirmed working locally.** What's left before this is genuinely deploy-ready is doing the same on the real cloud target (§9.5), not just on the user's own machine.
 - **Blocked on:** nothing.
 
 ### 2026-09-20 (cont.) -- Docs sync: Implementation_Plan.md and System_Design_and_Requirements.md updated for dual-Act scope
