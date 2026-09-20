@@ -87,6 +87,16 @@ class PresumptiveIncomeInput(BaseModel):
         "deemed profit is whichever is higher. None of Personas A/B1/B2/G exercise this; included because both "
         "source provisions state it as part of the same sentence being modeled, not as a separate optional feature.",
     )
+    partner_remuneration_authorized: Decimal | None = Field(
+        default=None,
+        ge=0,
+        description="For a PARTNERSHIP_FIRM only: the total remuneration the partnership deed authorises to "
+        "working partners under Section 40(b) / Section 35(e), for citation/audit-trail purposes ONLY. This "
+        "figure is carried through to PresumptiveIncomeResult.partner_remuneration_note but is NEVER subtracted "
+        "from presumptive_income -- Section 44ADA(2) / Section 58(5) deem all sections-30-to-38 deductions "
+        "already given effect to within the presumptive figure, with no carve-out for partner remuneration "
+        "(unlike Section 44AE/Sl. No. 2's explicit proviso). See ADR-014, Persona E in docs/personas.md.",
+    )
 
     @field_validator("cash_receipts")
     @classmethod
@@ -125,6 +135,20 @@ class PresumptiveIncomeResult(BaseModel):
         "qualifies_for_presumptive_scheme is True.",
     )
     citation: str | None = Field(default=None, description="The specific corpus document this figure traces to.")
+    final_taxable_business_income: Decimal | None = Field(
+        default=None,
+        description="Equal to presumptive_income whenever qualifies_for_presumptive_scheme is True -- named "
+        "separately (rather than just reusing presumptive_income) to make explicit that this IS the final figure, "
+        "not a floor that ordinary Chapter IV-D deductions -- including partner remuneration -- can still reduce. "
+        "See partner_remuneration_note and ADR-014.",
+    )
+    partner_remuneration_note: str | None = Field(
+        default=None,
+        description="Set only when entity_type is PARTNERSHIP_FIRM and partner_remuneration_authorized was "
+        "provided -- states that the authorized amount is NOT deducted from final_taxable_business_income, "
+        "regardless of what Section 40(b)/35(e)'s own cap would have allowed under normal computation, per "
+        "ADR-014.",
+    )
 
 
 class Article15Branch(str, Enum):

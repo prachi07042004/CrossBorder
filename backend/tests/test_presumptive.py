@@ -218,6 +218,37 @@ def test_non_specified_profession_is_ineligible_here():
     assert "not yet implemented" in result.ineligibility_reason
 
 
+def test_persona_e_sharma_associates_firm_remuneration_not_deducted():
+    # The remuneration figure used (Rs. 20,00,000) is deliberately one that
+    # WOULD pass Section 40(b)'s own cap under normal computation -- this is
+    # the sharpest test that final_taxable_business_income is the presumptive
+    # figure, full stop, not a floor a wrong implementation could still chip
+    # away at (see docs/personas.md, Persona E).
+    result = compute_presumptive_income(
+        _eligible_individual(
+            persona_label="E -- Sharma & Associates",
+            entity_type=EntityType.PARTNERSHIP_FIRM,
+            gross_receipts=Decimal(4200000),
+            cash_receipts=Decimal(0),
+            partner_remuneration_authorized=Decimal(2000000),
+        )
+    )
+    assert result.eligible is True
+    assert result.qualifies_for_presumptive_scheme is True
+    assert result.presumptive_income == Decimal(2100000)
+    assert result.final_taxable_business_income == Decimal(2100000)  # NOT 21,00,000 - 20,00,000
+    assert result.partner_remuneration_note is not None
+    assert "ADR-014" in result.partner_remuneration_note
+
+
+def test_partner_remuneration_note_absent_when_not_a_firm():
+    # An individual has no partners -- the note shouldn't appear even if the
+    # field were somehow set, and it's simply never set for a non-firm.
+    result = compute_presumptive_income(_eligible_individual(gross_receipts=Decimal(3200000)))
+    assert result.partner_remuneration_note is None
+    assert result.final_taxable_business_income == result.presumptive_income
+
+
 def test_partnership_firm_is_eligible_entity_type():
     # Persona E's entity type (though Persona E's own partner-remuneration
     # question is a separate, not-yet-built increment) -- confirms firms

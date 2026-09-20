@@ -1,5 +1,11 @@
 """Section 44ADA / Income-tax Act 2025 Section 58 (Table Sl. No. 3) presumptive
-income computation.
+income computation, including Persona E's finding: a partnership firm's
+presumptive income is the FINAL taxable business income -- partner
+remuneration authorised by the deed is never separately deducted on top of
+it (ADR-014, corpus/india/it-act-section-40b/2025-26.txt). Fields/results
+for this exist alongside the core computation rather than in a separate
+module, since it's the exact same presumptive-income figure, just named
+explicitly as "final" and paired with a citation note when relevant.
 
 Both provisions are substantively identical for this computation (50% of
 gross receipts, Rs. 50,00,000 base threshold / Rs. 75,00,000 where cash
@@ -121,6 +127,20 @@ def compute_presumptive_income(data: PresumptiveIncomeInput) -> PresumptiveIncom
     deemed = (data.gross_receipts * PRESUMPTIVE_RATE).quantize(Decimal(1))
     presumptive_income = max(deemed, data.claimed_actual_profit) if data.claimed_actual_profit is not None else deemed
 
+    # Persona E: presumptive_income IS the final taxable business income --
+    # not a floor that partner remuneration (or any other Chapter IV-D
+    # deduction) can still reduce. Note is only populated when there's
+    # actually something to say (a firm, with a remuneration figure on
+    # record) rather than on every result.
+    partner_remuneration_note = None
+    if data.entity_type == EntityType.PARTNERSHIP_FIRM and data.partner_remuneration_authorized is not None:
+        partner_remuneration_note = (
+            f"Partnership deed authorises Rs. {data.partner_remuneration_authorized} in partner remuneration -- "
+            "NOT deducted from final_taxable_business_income. Section 44ADA(2)/Section 58(5) deem all "
+            "sections-30-to-38 deductions already given effect to within the presumptive figure, with no "
+            "carve-out for partner remuneration (unlike Section 44AE/Sl. No. 2's explicit proviso). See ADR-014."
+        )
+
     return PresumptiveIncomeResult(
         persona_label=data.persona_label,
         legal_instrument=instrument,
@@ -130,4 +150,6 @@ def compute_presumptive_income(data: PresumptiveIncomeInput) -> PresumptiveIncom
         qualifies_for_presumptive_scheme=True,
         presumptive_income=presumptive_income,
         citation=citation,
+        final_taxable_business_income=presumptive_income,
+        partner_remuneration_note=partner_remuneration_note,
     )
