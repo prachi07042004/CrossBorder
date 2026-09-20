@@ -22,12 +22,12 @@ Status legend: `[ ]` not started · `[~]` in progress · `[x]` done
 
 ## Phase 1 — Deterministic tax engine (target: weeks 3-5)
 
-- [ ] Pydantic models for persona, transaction, tax computation
-- [ ] Section 44ADA presumptive income calculation
+- [x] Pydantic models for persona, transaction, tax computation -- `backend/app/tax_engine/models.py` (`PresumptiveIncomeInput`/`PresumptiveIncomeResult`); scoped to the presumptive-income increment so far, not the full persona/transaction domain
+- [x] Section 44ADA presumptive income calculation -- `backend/app/tax_engine/presumptive.py`; covers both Acts (`select_legal_instrument()` picks Section 44ADA vs. Income-tax Act 2025 Section 58 by `tax_year`) so the 1961/2025 dual-Act scope (ADR-015/016) isn't duplicated logic
 - [ ] DTAA Article 15 (90-day test) logic
 - [ ] DTAA Article 25 (foreign tax credit) logic
 - [x] Hand-verified persona scenarios defined (ground truth, checked against primary sources per `docs/WORKING_PRINCIPLES.md` rule 3) -- seven personas (A-G), see `docs/personas.md`
-- [ ] Unit test suite passing against all defined scenarios, including boundary cases
+- [~] Unit test suite passing against all defined scenarios, including boundary cases -- 20/20 passing for the non-treaty personas (A, B1, B2, G) plus Act-selection boundary, threshold/proviso boundary cases (6), and eligibility-gate cases (LLP, non-resident, non-specified profession, partnership firm); Personas C/D/E/F (DTAA, firm remuneration, misrouting) not yet covered -- tracked as follow-up increments
 
 ## Phase 2 — RAG pipeline (target: weeks 5-8, overlaps Phase 1)
 
@@ -141,3 +141,11 @@ Add a dated entry each time work happens — a few lines is enough.
 - Left one open design question for Phase 2 rather than deciding it now: the DB schema's single `effective_date`/`tax_year` columns don't support a start/end range, which the superseded 1961-Act documents will need once retrieval has to answer a query about a past tax year. Documented in `corpus/METADATA_SCHEMA.md`.
 - **Next:** Phase 0 is now fully checked except the two infra items (production-style compose config, cloud deploy) that have been open since 2026-09-17. Phase 1 proper is otherwise unblocked: Pydantic models, then 44ADA/Section 58 calculation logic, tested against all seven personas.
 - **Blocked on:** nothing.
+
+### 2026-09-20 (cont.) -- Phase 1 tax engine, first increment: presumptive income, non-treaty personas
+- Built the first slice of the deterministic tax engine, scoped deliberately narrow: Section 44ADA/Section 58 presumptive-income calculation only, tested against the four personas that don't involve DTAA relief, firm remuneration, or misrouting (A, B1, B2, G). DTAA (Article 15/25), Persona E's firm-remuneration interaction, and Persona F's 44AD misrouting are explicitly out of scope for this increment, flagged as such in code docstrings/ineligibility messages, and left as open Phase 1 items below.
+- `backend/app/tax_engine/models.py`: `PresumptiveIncomeInput`/`PresumptiveIncomeResult` Pydantic models, plus `LegalInstrument`/`EntityType` enums. `backend/app/tax_engine/presumptive.py`: `select_legal_instrument()` picks the 1961 Act (Section 44ADA) vs. the 2025 Act (Section 58, Table Sl. No. 3) by `tax_year`, and `compute_presumptive_income()` shares one computation path across both Acts so the near-identical provisions can't drift apart -- verified by Persona A (1961 Act) and Persona G (2025 Act, identical facts) producing the identical Rs. 16,00,000 figure.
+- `backend/tests/test_presumptive.py`: 20 tests, all passing -- the four personas, the Act-selection boundary (FY2025-26 vs. FY2026-27), six threshold/cash-proviso boundary cases (exact Rs. 50L/75L, one rupee over each, exact 5% cash split both sides), and four eligibility-gate cases (LLP excluded, non-resident excluded, non-specified profession excluded here -- Persona F's territory, partnership firm correctly still eligible).
+- Per `docs/WORKING_PRINCIPLES.md` rule 4, ran the suite before calling this done: `pytest tests/test_presumptive.py -v` -- 20/20 passed on first run. Also ran `ruff check` on the new files to match the CI lint step; fixed the real findings (an `Optional[X]` -> `X | None` style pass, unsorted imports, a `dict()` call rewritten as a literal) via `ruff check --fix` plus one manual fix. The remaining `EXE002` ("file executable, no shebang") flags on these files are a mount-environment artifact, not a real issue -- `git config core.fileMode` is `false` in this repo and existing tracked files (`main.py`, `test_health.py`) are stored as `100644` despite showing as executable on this filesystem too, confirmed via `git ls-files -s`.
+- **Next:** DTAA Article 15/25 logic (Personas C/D), firm-remuneration interaction (Persona E), 44AD-misrouting logic (Persona F) -- each its own follow-up increment per the same test-first discipline. Phase 0's two infra items (production-style compose config, cloud deploy) remain open and deprioritized.
+- **Blocked on:** nothing -- ready for the user to review and commit.
