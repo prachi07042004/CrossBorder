@@ -5,6 +5,7 @@ effective_date: 1 April 2026
 tax_year: FY2026-27 onward -- successor to the 1961 Act's Section 44AA (corpus/india/it-act-section-44aa/2025-26.txt).
 retrieved_date: 2026-09-17
 retrieval_method: direct visual page-read of the rendered PDF pages.
+verification_confirmed (2026-09-20, cont.): the 686-page source PDF was re-supplied and is only ~3.1MB -- well under the page-image tool's 100MB limit, unlike the 1961 Act and Rules-1962 PDFs that caused the overstatement problem elsewhere. Re-checked via genuine direct visual page-image read (not pdftotext) as part of closing the ambiguity flagged in the 2026-09-20 review. Word-for-word match against the text below -- no discrepancy found.
 relation_to_1961_act_44aa: Sub-section (4) is the direct successor to 1961 Act Section 44AA(1)'s profession list, and is what Section 58's "specified profession" (Sl. No. 3) refers back to. The list adds two professions not named in the 1961 Act: "information technology" and "company secretary". "Digital marketing consultancy" (Persona F) is still not on the named list under either Act.
 ---
 
