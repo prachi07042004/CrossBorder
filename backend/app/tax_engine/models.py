@@ -41,6 +41,8 @@ class LegalInstrument(str, Enum):
 
     IT_ACT_1961 = "Income Tax Act, 1961 (Section 44ADA)"
     IT_ACT_2025 = "Income-tax Act, 2025 [No. 30 of 2025] (Section 58, Table Sl. No. 3)"
+    IT_ACT_1961_GENERAL_BUSINESS = "Income Tax Act, 1961 (Section 44AD)"
+    IT_ACT_2025_GENERAL_BUSINESS = "Income-tax Act, 2025 [No. 30 of 2025] (Section 58, Table Sl. No. 1)"
 
 
 class EntityType(str, Enum):
@@ -64,9 +66,21 @@ class PresumptiveIncomeInput(BaseModel):
         description="Whether the assessee's profession is on the Section 44AA(1) / Section 62(4) named list (or "
         "Board-notified). This engine does NOT itself determine this -- see "
         "corpus/india/it-act-section-44aa/2025-26.txt and corpus/india/it-act-2025-section-62/2026-27.txt for the "
-        "named lists; the caller must resolve this first. A false value is rejected (see "
-        "PresumptiveIncomeResult.eligible) rather than silently computed, since 44ADA / Section 58 Sl. No. 3 do not "
-        "apply at all in that case (Persona F's fact pattern -- not yet implemented, see PROGRESS.md)."
+        "named lists; the caller must resolve this first. A false value does NOT mean automatic ineligibility -- "
+        "see compute_presumptive_income()'s routing to the general-business Section 44AD / Section 58 Sl. No. 1 "
+        "scheme (Persona F's fact pattern)."
+    )
+    earns_commission_or_brokerage: bool = Field(
+        default=False,
+        description="Only relevant when is_specified_profession is False -- Section 44AD(6)(ii) / Section "
+        "58(11)(a)(iv) excludes commission/brokerage income from the general-business presumptive scheme too, so "
+        "this closes off BOTH schemes when True.",
+    )
+    carries_on_agency_business: bool = Field(
+        default=False,
+        description="Only relevant when is_specified_profession is False -- Section 44AD(6)(iii) / Section "
+        "58(11)(a)(v) excludes agency business from the general-business presumptive scheme too, so this closes "
+        "off BOTH schemes when True.",
     )
     entity_type: EntityType
     resident_in_india: bool = Field(
@@ -148,6 +162,19 @@ class PresumptiveIncomeResult(BaseModel):
         "provided -- states that the authorized amount is NOT deducted from final_taxable_business_income, "
         "regardless of what Section 40(b)/35(e)'s own cap would have allowed under normal computation, per "
         "ADR-014.",
+    )
+    routed_to_general_business: bool = Field(
+        default=False,
+        description="True when is_specified_profession was False and the result was computed under the "
+        "general-business Section 44AD / Section 58 Sl. No. 1 scheme instead of being flatly rejected (Persona "
+        "F). False (the default) covers both the ordinary specified-profession path and genuine ineligibility "
+        "(e.g. excluded by commission/brokerage or agency business too -- see ineligibility_reason).",
+    )
+    routing_note: str | None = Field(
+        default=None,
+        description="Set only when routed_to_general_business is True -- explains the routing and that the rate "
+        "(6%/8% blended by banking vs. cash receipts) and threshold (Rs. 2/3 crore) are entirely different from "
+        "the specified-profession scheme's 50% rate and Rs. 50/75 lakh threshold, per docs/personas.md Persona F.",
     )
 
 

@@ -206,16 +206,95 @@ def test_non_resident_is_ineligible():
     assert "resident in India" in result.ineligibility_reason
 
 
-def test_non_specified_profession_is_ineligible_here():
-    # Persona F's fact pattern (Karan, digital marketing) -- this engine
-    # correctly refuses to compute 44ADA/Section 58 Sl. No. 3 for it rather
-    # than silently applying the wrong rate; routing to 44AD/Sl. No. 1 is a
-    # separate, not-yet-built increment (see PROGRESS.md).
+def test_persona_f_karan_routed_to_general_business_scheme():
+    # Karan (digital marketing consultant) is not on the specified-profession
+    # list, but isn't excluded from the general-business scheme either -- so
+    # this must NOT be a flat rejection, and must NOT use 44ADA's 50% rate.
+    # All receipts via bank transfer -> pure 6% banking rate.
     result = compute_presumptive_income(
-        _eligible_individual(is_specified_profession=False, gross_receipts=Decimal(2800000))
+        _eligible_individual(
+            persona_label="F -- Karan",
+            is_specified_profession=False,
+            gross_receipts=Decimal(2800000),
+            cash_receipts=Decimal(0),
+        )
+    )
+    assert result.eligible is True
+    assert result.routed_to_general_business is True
+    assert result.routing_note is not None
+    assert result.qualifies_for_presumptive_scheme is True
+    assert result.presumptive_income == Decimal(168000)  # 6% x 28,00,000 -- NOT 44ADA's 50% (14,00,000)
+    assert result.final_taxable_business_income == Decimal(168000)
+    assert result.legal_instrument in (
+        LegalInstrument.IT_ACT_1961_GENERAL_BUSINESS,
+        LegalInstrument.IT_ACT_2025_GENERAL_BUSINESS,
+    )
+
+
+def test_general_business_blended_rate_mixed_cash_and_banking_receipts():
+    # Rs. 20,00,000 total: Rs. 15,00,000 banking (6%) + Rs. 5,00,000 cash (8%).
+    result = compute_presumptive_income(
+        _eligible_individual(
+            is_specified_profession=False,
+            gross_receipts=Decimal(2000000),
+            cash_receipts=Decimal(500000),
+        )
+    )
+    assert result.routed_to_general_business is True
+    # 15,00,000 x 0.06 = 90,000; 5,00,000 x 0.08 = 40,000; total 1,30,000.
+    assert result.presumptive_income == Decimal(130000)
+
+
+def test_unspecified_profession_with_commission_income_is_genuinely_ineligible():
+    result = compute_presumptive_income(
+        _eligible_individual(
+            is_specified_profession=False,
+            earns_commission_or_brokerage=True,
+            gross_receipts=Decimal(2800000),
+        )
     )
     assert result.eligible is False
-    assert "not yet implemented" in result.ineligibility_reason
+    assert result.routed_to_general_business is False
+    assert "commission/brokerage" in result.ineligibility_reason
+
+
+def test_unspecified_profession_with_agency_business_is_genuinely_ineligible():
+    result = compute_presumptive_income(
+        _eligible_individual(
+            is_specified_profession=False,
+            carries_on_agency_business=True,
+            gross_receipts=Decimal(2800000),
+        )
+    )
+    assert result.eligible is False
+    assert result.routed_to_general_business is False
+    assert "agency business" in result.ineligibility_reason
+
+
+def test_general_business_threshold_two_crore_boundary():
+    # Exactly Rs. 2,00,00,000 with cash above 5% -- base threshold, still qualifies.
+    result = compute_presumptive_income(
+        _eligible_individual(
+            is_specified_profession=False,
+            gross_receipts=Decimal(20000000),
+            cash_receipts=Decimal(2000000),  # 10% -- above the 5% proviso limit
+        )
+    )
+    assert result.cash_proviso_applied is False
+    assert result.threshold_applied == Decimal(20000000)
+    assert result.qualifies_for_presumptive_scheme is True
+
+
+def test_general_business_threshold_one_rupee_above_two_crore_disqualifies():
+    result = compute_presumptive_income(
+        _eligible_individual(
+            is_specified_profession=False,
+            gross_receipts=Decimal(20000001),
+            cash_receipts=Decimal(2000000),
+        )
+    )
+    assert result.qualifies_for_presumptive_scheme is False
+    assert result.presumptive_income is None
 
 
 def test_persona_e_sharma_associates_firm_remuneration_not_deducted():
