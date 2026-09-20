@@ -2,6 +2,8 @@
 
 *Companion to `Implementation_Plan.md`. That document answered "what order do we build things in." This one answers "have we actually thought this through" — it traces every major design choice back to a specific resource, then locks down requirements, architecture, data model, API surface, and tech stack in enough detail to start coding without re-litigating decisions later.*
 
+**Scope note (2026-09-20):** India enacted the Income-tax Act, 2025 [No. 30 of 2025], in force from FY2026-27, after this document was first compiled. The requirements and architecture below reflect the resulting dual-Act scope (both the 1961 Act and the 2025 Act, selected by tax year) rather than the single-Act assumption this doc originally shipped with -- see ADR-015/016 in `DECISIONS.md` for the full reasoning, and §9.1 below for a related correction to the dev/production deployment model.
+
 ---
 
 ## 1. Resource → Decision traceability
@@ -42,7 +44,7 @@ If any resource from the original 12 doesn't appear in this table, it was contex
 |---|---|---|
 | FR-1 | User can upload transactions (CSV) and invoices (PDF) for a persona | MVP |
 | FR-2 | System classifies each transaction into an expense category and deductibility flag (LLM-based, few-shot) | MVP |
-| FR-3 | System computes Indian presumptive tax under Section 44ADA for a given persona/tax year | MVP |
+| FR-3 | System computes Indian presumptive tax under the applicable Act's presumptive scheme for a given persona/tax year -- Section 44ADA (Income-tax Act, 1961) through FY2025-26, Section 58 (Income-tax Act, 2025) from FY2026-27 onward, selected by tax year (ADR-016) -- including routing to the general-business scheme (Section 44AD / Section 58 Sl. No. 1) instead of outright rejection when a profession isn't on the specified-profession list | MVP |
 | FR-4 | System computes DTAA relief: applies Article 15's 90-day test, and Article 25's foreign tax credit calculation when US tax applies | MVP |
 | FR-5 | System retrieves relevant source passages (India IT Act, DTAA text, IRS guidance) for any classification or tax decision it makes | MVP |
 | FR-6 | Retrieval is constrained to the document versions valid for the persona's tax year (temporal filtering) | MVP |
@@ -55,6 +57,7 @@ If any resource from the original 12 doesn't appear in this table, it was contex
 | FR-13 | Knowledge-graph-based statutory relationship modeling (à la `ita-kg`) | Stretch / future work |
 | FR-14 | Support for jurisdictions/treaties beyond India-US | Out of scope |
 | FR-15 | Determination of residential status under Section 6 -- v1 takes "resident in India" as a given input per persona, not a computed fact (see ADR-017) | Out of scope |
+| FR-16 | A partnership firm's presumptive income (FR-3) is never further reduced by partner remuneration or any other Chapter IV-D deduction, regardless of what the partnership deed authorises -- neither Section 44ADA/58 Sl. No. 3 nor Section 44AD/58 Sl. No. 1 carve this out (unlike Sl. No. 2 / Section 44AE) | MVP |
 
 ### 2.2 Non-functional requirements
 
@@ -105,7 +108,7 @@ Two-person team, ~15-week timeline, no real financial data, single cloud instanc
                         │           │             │      │    effective_date,    │
                         │  ┌────────▼─────────┐  │      │    tax_year)          │
                         │  │ Deterministic Tax │  │      │ - transactions        │
-                        │  │ Engine (44ADA +   │  │      │ - tax_computations    │
+                        │  │ Engine (44ADA/58 +│  │      │ - tax_computations    │
                         │  │  DTAA Art.15/25)  │  │      │ - citations           │
                         │  └────────┬─────────┘  │      │ - audit_flags         │
                         │           │             │      │ - eval_runs           │
@@ -122,7 +125,7 @@ One database, one backend service, one frontend. No message queue, no separate v
 
 1. Frontend sends persona + tax year to `POST /tax/estimate`
 2. Backend pulls the persona's classified transactions (or triggers classification if not yet done)
-3. Deterministic engine computes 44ADA presumptive income and checks the DTAA Article 15 90-day test
+3. Deterministic engine computes presumptive income under the applicable Act (Section 44ADA or Section 58, selected by tax year) and checks the DTAA Article 15 90-day/fixed-base tests
 4. In parallel, the RAG module retrieves the specific IT Act and DTAA passages that justify each computed figure, filtered to the persona's tax year
 5. Citation verification checks each retrieved passage actually supports the claim attached to it; unsupported claims are dropped and flagged rather than shown
 6. Response assembles: computed numbers (from step 3, never from the LLM) + verified citations (from step 5) + an audit-risk score (from the rule-based scorer) + a confidence/hedge flag if anything in steps 4-5 came back weak
@@ -217,7 +220,12 @@ This was implicit in the tech-stack table above; it's worth its own section beca
 
 ### 9.1 Containers
 
-One `docker-compose.yml`, three services, used identically in dev and in production (that parity is the whole point — no separate "prod config" to maintain):
+**Correction (2026-09-20):** this section originally specified one `docker-compose.yml` "used identically in dev and in production... no separate 'prod config' to maintain." That assumption didn't survive contact with actually building it. Dev needs live source mounts and `--reload`/`next dev` for fast iteration (ADR-011); production needs the frontend's fully-built `runner` stage, not the pre-build `deps` stage dev was pragmatically left on, and shouldn't run against bind-mounted source at all. Rather than force one file to serve both purposes, or maintain two fully separate files that can drift apart, the actual setup is Compose's own recommended split (ADR-021):
+
+- `docker-compose.yml` -- the production-shaped base: each service builds and runs from its image as-built, no source mounts, no dev-server commands, `restart: unless-stopped`.
+- `docker-compose.override.yml` -- dev-only settings (source mounts, `--reload`/`next dev`, the frontend's `deps` build target). Compose merges this automatically on top of the base whenever `docker compose up` runs with no extra flags, so local dev is a single unchanged command.
+
+A deploy that wants the lean production shape alone runs `docker compose -f docker-compose.yml up -d --build`, explicitly excluding the override file. Three services either way:
 
 ```
 services:

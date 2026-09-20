@@ -1,6 +1,13 @@
+# Production-shaped base config (ADR-021). Compose automatically merges
+# docker-compose.override.yml on top of this whenever you run plain
+# `docker compose up` -- local dev workflow (ADR-011) is unchanged. To run
+# ONLY what's defined here (the lean, deployable shape -- no source mounts,
+# no dev servers), explicitly exclude the override file:
+#   docker compose -f docker-compose.yml up -d --build
 services:
   db:
     image: pgvector/pgvector:pg16
+    restart: unless-stopped
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-taxapp}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-taxapp}
@@ -17,12 +24,10 @@ services:
 
   backend:
     build: ./backend
-    # Dev-mode override: --reload + the source mounted straight in, so a code
-    # edit shows up without rebuilding the image. Only requirements.txt or
-    # Dockerfile changes need `docker compose up --build` again. See ADR-011.
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
-    volumes:
-      - ./backend:/app
+    restart: unless-stopped
+    # No command override, no source volume -- runs the Dockerfile's own
+    # CMD (plain `uvicorn app.main:app`, no --reload) against the image
+    # exactly as built. Dev-only overrides live in docker-compose.override.yml.
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER:-taxapp}:${POSTGRES_PASSWORD:-taxapp}@db:5432/${POSTGRES_DB:-taxapp}
     ports:
@@ -34,14 +39,13 @@ services:
   frontend:
     build:
       context: ./frontend
-      target: deps   # the pre-build stage — has node_modules, not a built app
-    # Dev-mode override: `next dev` + source mounted in, same reasoning as
-    # backend above. The extra /app/node_modules mount keeps the image's
-    # already-installed packages instead of being hidden by the source mount.
-    command: npm run dev
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
+      # No target specified here -- Compose builds the LAST stage by
+      # default, which is `runner`: the actual compiled, optimized Next.js
+      # standalone output (see frontend/Dockerfile). Dev overrides this to
+      # the `deps` stage in docker-compose.override.yml.
+    restart: unless-stopped
+    # No command override, no source volume -- runs the Dockerfile's own
+    # CMD (`node server.js`, the built standalone server), not `next dev`.
     environment:
       NEXT_PUBLIC_API_URL: http://localhost:8000
     ports:

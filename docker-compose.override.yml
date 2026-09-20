@@ -1,0 +1,19 @@
+# Dev-only overrides (ADR-011, split out by ADR-021). Compose auto-merges
+# this on top of docker-compose.yml whenever you run plain `docker compose
+# up` with no extra flags -- so day-to-day local dev is identical to before
+# this split, still fast-reloading with source mounted live. This file is
+# never meant to be used alone; it has no `services.db` entry because
+# nothing about the database differs between dev and production.
+services:
+  backend:
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    volumes:
+      - ./backend:/app
+
+  frontend:
+    build:
+      target: deps   # the pre-build stage -- has node_modules, not a built app
+    command: npm run dev
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules

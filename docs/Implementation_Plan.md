@@ -2,11 +2,13 @@
 
 *Companion to the project synopsis and research report. Timeline assumes a ~14-16 week semester, starting from a blank codebase.*
 
+**Scope note (2026-09-20):** India enacted the Income-tax Act, 2025 [No. 30 of 2025], in force from FY2026-27, after this plan was first written. References to "Section 44ADA" below should be read as "Section 44ADA (Income-tax Act, 1961) or its Section 58 successor (Income-tax Act, 2025), selected by tax year" -- see ADR-015/016 in `DECISIONS.md`. The phased timeline and scope calls otherwise stand as originally written.
+
 ---
 
 ## 1. What we're actually building
 
-A single-tenant web app where an Indian freelancer/consultant working with US clients uploads transactions, gets expenses auto-classified, and receives a source-cited estimate of their India tax (Section 44ADA presumptive scheme) and DTAA relief — with all math done by deterministic code and all legal interpretation grounded in retrieved, dated source documents. The LLM never computes a number; it only classifies and retrieves.
+A single-tenant web app where an Indian freelancer/consultant working with US clients uploads transactions, gets expenses auto-classified, and receives a source-cited estimate of their India tax (the presumptive-taxation scheme under whichever Act applies for that tax year -- Section 44ADA, Income-tax Act 1961, or its Section 58 successor, Income-tax Act 2025) and DTAA relief — with all math done by deterministic code and all legal interpretation grounded in retrieved, dated source documents. The LLM never computes a number; it only classifies and retrieves.
 
 That split (LLM = interpretation/retrieval, code = arithmetic) is already the right call in the synopsis — the research confirms it's the field-standard pattern for legal/tax AI (fine-tuning underperforms RAG here because it can't be audited or updated without retraining). Nothing in this plan changes that decision; it just sequences the work and draws the line on what to leave out.
 
@@ -54,8 +56,8 @@ This is the "don't over-engineer" section. The synopsis is well-scoped already; 
 **In scope for the semester (v1):**
 - Transaction/invoice upload (CSV + a handful of PDF invoices)
 - LLM-based expense classification (few-shot prompting against a fixed category taxonomy — no fine-tuning)
-- RAG pipeline over a **curated, fixed** set of documents: the relevant India IT Act sections (44ADA), the India-US DTAA text (Articles 15 and 25 at minimum), and IRS guidance on source-of-income for independent personal services
-- Deterministic engine: 44ADA presumptive tax calculation + DTAA Article 15 (90-day test) + Article 25 (FTC) for the specific persona scenarios you define
+- RAG pipeline over a **curated, fixed** set of documents: the relevant India IT Act sections (Section 44ADA under the 1961 Act, its Section 58 successor under the 2025 Act, and the general-business scheme -- Section 44AD / Section 58 Sl. No. 1 -- that an unspecified profession routes to instead of a flat rejection), the India-US DTAA text (Articles 15 and 25 at minimum), and IRS guidance on source-of-income for independent personal services
+- Deterministic engine: presumptive tax calculation under Section 44ADA / Section 58 (both Acts, selected by tax year) + DTAA Article 15 (90-day test) + Article 25 (FTC) for the specific persona scenarios you define
 - Rule-based audit risk meter (a scoring function over missing-documentation flags, threshold proximity, low-confidence classifications — not a trained model)
 - Source citations on every retrieved rule shown to the user
 - Next.js dashboard, FastAPI backend, Dockerized single-instance deployment
@@ -117,7 +119,7 @@ Build 4-6 personas by hand (e.g., "software consultant, ₹40L/year from one US 
 | Weeks | Phase | Deliverable |
 |-------|-------|-------------|
 | 1-2 | Setup & corpus curation | Repo, Docker Compose skeleton (db + backend + frontend) **deployed as a "hello world" to the real cloud target**, CI; curated + versioned source documents (44ADA text, DTAA Articles 15 & 25, relevant IRS guidance) with the jurisdiction/effective_date/tax_year metadata schema decided — see `System_Design_and_Requirements.md` §9 for the deployment specifics |
-| 3-5 | Deterministic tax engine | Pydantic models, 44ADA calc, DTAA Article 15 (90-day test) + Article 25 (FTC) logic, full unit test suite against hand-verified persona scenarios — build and lock this down first, since the RAG layer grounds *into* it |
+| 3-5 | Deterministic tax engine | Pydantic models, presumptive-tax calc (Section 44ADA / Section 58, both Acts), DTAA Article 15 (90-day test) + Article 25 (FTC) logic, full unit test suite against hand-verified persona scenarios — build and lock this down first, since the RAG layer grounds *into* it |
 | 5-8 | RAG pipeline (overlaps engine work) | Ingestion + hierarchy-aware chunking, pgvector storage, hybrid BM25+vector retrieval, citation-required prompting; first pass of the RAGAS-style eval harness running continuously as the corpus grows |
 | 8-10 | Expense classifier + audit risk meter | Few-shot classification against fixed taxonomy, confidence scoring, rule-based audit flag logic |
 | 10-12 | Integration | FastAPI wiring, Next.js dashboard (upload, tax summary with citations, audit report), end-to-end flow working on all personas |

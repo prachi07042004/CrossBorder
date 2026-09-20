@@ -45,4 +45,10 @@ Your `backend/` and `frontend/` folders are mounted straight into the containers
 - Frontend: `http://localhost:3000`
 - Stop everything: `Ctrl+C`, then `docker compose down` (add `-v` only if you want to wipe the Postgres data volume too)
 
-This currently brings up the Phase 0 hello-world skeleton (see `PROGRESS.md`) — not the full application yet. Note: this compose file is a **dev configuration** (the frontend builds only as far as Docker's `deps` stage, then runs `next dev` against mounted source). The cloud deployment step later in Phase 0 will need a separate production-style config using the full multi-stage build — tracked in `PROGRESS.md`, not done yet.
+This currently brings up the Phase 0 hello-world skeleton (see `PROGRESS.md`) — not the full application yet.
+
+**Two compose files, merged automatically (ADR-021):** `docker-compose.yml` is the production-shaped base (frontend built to its optimized `runner` stage, no source mounts, no dev servers); `docker-compose.override.yml` layers the dev-only settings above (source mounts, `--reload`/`next dev`, the frontend's pre-build `deps` stage) on top of it. Plain `docker compose up` — as shown above — merges both automatically, so nothing above changes for day-to-day dev. To run the production shape alone (e.g. to sanity-check it before a real deploy), explicitly exclude the override file:
+
+```bash
+docker compose -f docker-compose.yml up -d --build
+```
