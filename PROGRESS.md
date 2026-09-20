@@ -203,5 +203,12 @@ Add a dated entry each time work happens — a few lines is enough.
 - Found and fixed a real, unrelated inaccuracy while doing this: System_Design §9.1 claimed the Docker Compose setup was "used identically in dev and in production... no separate 'prod config' to maintain" -- false since ADR-011, and directly contradicted by today's ADR-021 work. Rewrote with an explicit dated correction note rather than silently editing over it.
 - Added FR-16 (Persona E's partner-remuneration finding) -- real, tested behavior that had no corresponding functional requirement. Folded Persona F's general-business routing into FR-3 rather than a new FR, since it's the same capability, not a separate one.
 - ADR-022 records this. Both docs' "Compiled September 10, 2026" footers were left as-is (historical compile date), with the new scope notes explaining what changed since.
-- **Next:** these two docs are now believed current against everything built so far; worth a re-check whenever the next major scope decision lands (e.g. once Article 25's credit is actually computable, or RAG work starts). `docs/SRS_SDS_Report_CrossBorderTax.docx` (the formal submission doc) was NOT touched -- not checked for the same drift, flagging that as open.
+- **Next:** these two docs are now believed current against everything built so far; worth a re-check whenever the next major scope decision lands (e.g. once Article 25's credit is actually computable, or RAG work starts).
+- **Blocked on:** nothing.
+
+### 2026-09-20 (cont.) -- Docs sync: SRS_SDS_Report_CrossBorderTax.docx updated for dual-Act scope (ADR-023)
+- Closed the last open doc-sync item flagged in the previous entry: the formal submission report carried the same single-Act assumption as the other two docs before their fixes. Added a dated scope note under §1.1 and corrected §1.1 Purpose, both relevant §1.2 Scope bullets, FR-3, §3.2 Module Design, §3.4 UI Design, and §3.6 Sequence Diagram.
+- Also added FR-13 (partner remuneration non-reduction), mirroring the other docs' FR-16 -- this report's own FR table only ever had 12 rows (MVP-scoped only), so it's numbered FR-13 here.
+- Edited directly in the .docx XML (this is a Word document, not Markdown); validated against the schema and rendered to PDF page images to visually confirm all nine edits before delivering -- no layout drift, TOC page numbers unaffected, still 13 pages.
+- **All three formal docs (`Implementation_Plan.md`, `System_Design_and_Requirements.md`, `SRS_SDS_Report_CrossBorderTax.docx`) are now believed current against the dual-Act scope.** No remaining doc-sync gaps from ADR-015 are open.
 - **Blocked on:** nothing.
