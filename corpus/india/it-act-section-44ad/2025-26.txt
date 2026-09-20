@@ -1,0 +1,43 @@
+---
+jurisdiction: India (Income Tax Act, 1961)
+source: Income Tax Department, Ministry of Finance, Government of India -- official consolidated Act text
+source_url: incometaxindia.gov.in (comprehensive consolidated Act PDF, filename "Income-tax-Act-1961_2026_2026-06-18_02-47-37_b9326c_en.pdf", user-uploaded)
+effective_date: base section long-standing; sub-section (6)'s exclusion list (profession/commission-brokerage/agency) predates this project entirely -- not itself independently dated, not needed for the finding below.
+tax_year: valid through FY2025-26 (AY 2026-27) -- the 1961 Act remains in force through this year.
+retrieved_date: 2026-09-20
+retrieval_method: located via pdftotext text search (page 177 of the source PDF), confirmed by direct visual page-read (qpdf-split single-page PDF, read as a rendered page image, not text-extraction alone) -- word-for-word match, no discrepancy found. Both steps done together in one pass, avoiding the two earlier files' (44AA, 40(b), 90) sequencing problem where the visual step was claimed before it was actually performed.
+why_curated: Closes a real gap flagged in the 2026-09-20 review: docs/personas.md's Persona F concludes Karan (a digital-marketing consultant, not on the 44AA(1)/62(4) profession list) likely falls through to Section 44AD's general-business presumptive scheme instead of a flat rejection -- but that conclusion rested entirely on sub-section (6)'s exclusion list, which had never itself been added to the corpus, only recalled. This file makes that citation real.
+key_finding_for_persona_f: Sub-section (6) confirmed verbatim: "The provisions of this section... shall not apply to-- (i) a person carrying on profession as referred to in sub-section (1) of section 44AA; (ii) a person earning income in the nature of commission or brokerage; or (iii) a person carrying on any agency business." Digital marketing consultancy is not a profession named in Section 44AA(1) (corpus/india/it-act-section-44aa/2025-26.txt), and Karan's work is neither commission/brokerage nor agency business -- none of (i)-(iii) excludes him. Persona F's "falls through to 44AD" conclusion is now primary-source-grounded, not just a reasoned inference. Still open, unchanged: whether a CBDT notification has separately added "digital marketing consultancy" to the 44AA(1)/62(4) list (which would flip the outcome back to 44ADA) has not been checked -- no such notification located in this project.
+scope_note: Sub-sections (1)-(6) and the Explanation are curated here in full (this is the section eligible-business/eligible-assessee definition Section 58's "Sl. No. 1" in the Income-tax Act, 2025 consolidates). No persona currently depends on sub-sections (1)-(5)'s own mechanics (8%/6% rates, the ineligibility-lockout in (4)-(5)) -- only (6)'s exclusion list is load-bearing for this project so far.
+---
+
+44AD. Special provision for computing profits and gains of business on presumptive basis.
+
+(1) Notwithstanding anything to the contrary contained in sections 28 to 43C, in the case of an eligible assessee engaged in an eligible business, a sum equal to eight percent of the total turnover or gross receipts of the assessee in the previous year on account of such business or, as the case may be, a sum higher than the aforesaid sum claimed to have been earned by the eligible assessee, shall be deemed to be the profits and gains of such business chargeable to tax under the head "Profits and gains of business or profession":
+
+Provided that this sub-section shall have effect as if for the words "eight per cent", the words "six per cent" had been substituted, in respect of the amount of total turnover or gross receipts which is received by an account payee cheque or an account payee bank draft or use of electronic clearing system through a bank account or through such other electronic mode as may be prescribed during the previous year or before the due date specified in sub-section (1) of section 139 in respect of that previous year.
+
+(2) Any deduction allowable under the provisions of sections 30 to 38 shall, for the purposes of sub-section (1), be deemed to have been already given full effect to and no further deduction under those sections shall be allowed.
+
+(3) The written down value of any asset of an eligible business shall be deemed to have been calculated as if the eligible assessee had claimed and had been actually allowed the deduction in respect of the depreciation for each of the relevant assessment years.
+
+(4) Where an eligible assessee declares profit for any previous year in accordance with the provisions of this section and he declares profit for any of the five assessment years relevant to the previous year succeeding such previous year not in accordance with the provisions of sub-section (1), he shall not be eligible to claim the benefit of the provisions of this section for five assessment years subsequent to the assessment year relevant to the previous year in which the profit has not been declared in accordance with the provisions of sub-section (1).
+
+(5) Notwithstanding anything contained in the foregoing provisions of this section, an eligible assessee to whom the provisions of sub-section (4) are applicable and whose total income exceeds the maximum amount which is not chargeable to income-tax, shall be required to keep and maintain such books of account and other documents as required under sub-section (2) of section 44AA and get them audited and furnish a report of such audit as required under section 44AB.
+
+(6) The provisions of this section, notwithstanding anything contained in the foregoing provisions, shall not apply to--
+   (i) a person carrying on profession as referred to in sub-section (1) of section 44AA;
+   (ii) a person earning income in the nature of commission or brokerage; or
+   (iii) a person carrying on any agency business.
+
+Explanation.--For the purposes of this section,--
+   (a) "eligible assessee" means,--
+      (i) an individual, Hindu undivided family or a partnership firm, who is a resident, but not a limited liability partnership firm as defined under clause (n) of sub-section (1) of section 2 of the Limited Liability Partnership Act, 2008 (6 of 2009); and
+      (ii) who has not claimed deduction under any of the sections 10A, 10AA, 10B, 10BA or deduction under any provisions of Chapter VIA under the heading "C.--Deductions in respect of certain incomes" in the relevant assessment year;
+   (b) "eligible business" means,--
+      (i) any business except the business of plying, hiring or leasing goods carriages referred to in section 44AE; and
+      (ii) whose total turnover or gross receipts in the previous year does not exceed an amount of two crore rupees:
+
+Provided that where the amount or aggregate of the amounts received during the previous year, in cash, does not exceed five per cent of the total turnover or gross receipts of such previous year, this sub-clause shall have effect as if for the words "two crore rupees", the words "three crore rupees" had been substituted:
+
+Provided further that for the purposes of the first proviso, the receipt of amount or aggregate of amounts by a cheque drawn on a bank or by a bank draft, which is not account payee, shall be deemed to be the receipt in cash.

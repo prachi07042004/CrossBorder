@@ -1,0 +1,45 @@
+---
+jurisdiction: India (Income Tax Act, 1961)
+source: Income Tax Department, Ministry of Finance, Government of India -- official consolidated Act text
+source_url: incometaxindia.gov.in (comprehensive consolidated Act PDF, filename "Income-tax-Act-1961_2026_2026-06-18_02-47-37_b9326c_en.pdf", user-uploaded)
+effective_date: base section long-standing (Chapter IX, Double Taxation Relief)
+tax_year: valid through FY2025-26 (AY 2026-27). From FY2026-27 onward see the Income-tax Act, 2025's Section 159 (corpus/india/it-act-2025-section-159/2026-27.txt), which merges this section with Section 90A into one.
+retrieved_date: 2026-09-20
+retrieval_method: direct visual page-read of the same comprehensive consolidated Act PDF used for corpus/india/it-act-section-40b/2025-26.txt.
+why_curated: This is the domestic-law provision that actually gives the India-US DTAA legal force in India and lets a resident assessee invoke it -- the treaty text alone (corpus/treaty/india-us-dtaa/article-25.txt) has no independent effect without this section. Sub-section (2) is the operative "more beneficial provision applies" rule that underlies Article 25's relief mechanism as used in Persona C.
+scope_note: Only Section 90 is curated (the government-to-government agreement route, which is what applies to the India-US DTAA). Section 90A (adoption of agreements between specified associations, not government-to-government) is a parallel, narrower mechanism not relevant to a bilateral treaty like the India-US DTAA and is not curated.
+directionality_note: Sub-section (4)'s tax-residency-certificate (TRC) requirement is worded for "an assessee, not being a resident" -- i.e. it is the condition for a *non*-resident (of India) claiming DTAA relief on India-source income. It does not, on its face, describe the situation in this project's personas (Indian residents claiming relief in India for tax paid in the US on US-source income under Article 25(2)(a)). Flagged so this isn't misapplied to the wrong direction of relief -- not yet resolved whether an analogous certificate requirement applies to the resident-claiming-FTC direction -- Rule 128 (corpus/india/it-rules-rule-128/2025-26.txt) governs that claim procedurally and does not itself impose a TRC-style certificate requirement, so as curated, no such requirement has been found for this direction; not the same as having affirmatively ruled one out.
+verification_correction (2026-09-20): same issue as corpus/india/it-act-section-44aa/2025-26.txt and corpus/india/it-act-section-40b/2025-26.txt -- the original "direct visual page-read" claim for this file was written before that step was actually performed. Retroactively confirmed the same day via a qpdf-split page excerpt -- no discrepancy found.
+---
+
+90. Agreement with foreign countries or specified territories.
+
+(1) The Central Government may enter into an agreement with the Government of any country outside India or specified territory outside India,--
+
+(a) for the granting of relief in respect of-- (i) income on which have been paid both income-tax under this Act and income-tax in that country or specified territory, as the case may be, or (ii) income-tax chargeable under this Act and under the corresponding law in force in that country or specified territory, as the case may be, to promote mutual economic relations, trade and investment, or
+
+(b) for the avoidance of double taxation of income under this Act and under the corresponding law in force in that country or specified territory, as the case may be, without creating opportunities for non-taxation or reduced taxation through tax evasion or avoidance (including through treaty-shopping arrangements aimed at obtaining reliefs provided in the said agreement for the indirect benefit to residents of any other country or territory), or
+
+(c) for exchange of information for the prevention of evasion or avoidance of income-tax chargeable under this Act or under the corresponding law in force in that country or specified territory, as the case may be, or investigation of cases of such evasion or avoidance, or
+
+(d) for recovery of income-tax under this Act and under the corresponding law in force in that country or specified territory, as the case may be,
+
+and may, by notification in the Official Gazette, make such provisions as may be necessary for implementing the agreement.
+
+(2) Where the Central Government has entered into an agreement with the Government of any country outside India or specified territory outside India, as the case may be, under sub-section (1) for granting relief of tax, or as the case may be, avoidance of double taxation, then, in relation to the assessee to whom such agreement applies, the provisions of this Act shall apply to the extent they are more beneficial to that assessee.
+
+(2A) Notwithstanding anything contained in sub-section (2), the provisions of Chapter X-A of the Act shall apply to the assessee even if such provisions are not beneficial to him.
+
+(3) Any term used but not defined in this Act or in the agreement referred to in sub-section (1) shall, unless the context otherwise requires, and is not inconsistent with the provisions of this Act or the agreement, have the same meaning as assigned to it in the notification issued by the Central Government in the Official Gazette in this behalf.
+
+(4) An assessee, not being a resident, to whom an agreement referred to in sub-section (1) applies, shall not be entitled to claim any relief under such agreement unless a certificate of his being a resident in any country outside India or specified territory outside India, as the case may be, is obtained by him from the Government of that country or specified territory.
+
+(5) The assessee referred to in sub-section (4) shall also provide such other documents and information, as may be prescribed.
+
+Explanation 1.-- For the removal of doubts, it is hereby declared that the charge of tax in respect of a foreign company at a rate higher than the rate at which a domestic company is chargeable, shall not be regarded as less favourable charge or levy of tax in respect of such foreign company.
+
+Explanation 2.-- For the purposes of this section, "specified territory" means any area outside India which may be notified as such by the Central Government.
+
+Explanation 3.-- For the removal of doubts, it is hereby declared that where any term is used in any agreement entered into under sub-section (1) and not defined under the said agreement or the Act, but is assigned a meaning to it in the notification issued under sub-section (3) and the notification issued thereunder being in force, then, the meaning assigned to such term shall be deemed to have effect from the date on which the said agreement came into force.
+
+Explanation 4.-- For the removal of doubts, it is hereby declared that where any term used in an agreement entered into under sub-section (1) is defined under the said agreement, the said term shall have the same meaning as assigned to it in the agreement; and where the term is not defined in the said agreement, but defined in the Act, it shall have the same meaning as assigned to it in the Act and explanation, if any, given to it by the Central Government.

@@ -54,6 +54,7 @@ If any resource from the original 12 doesn't appear in this table, it was contex
 | FR-12 | System logs which document chunks and rule versions were used for every computation (for later evaluation and for the technical report) | MVP |
 | FR-13 | Knowledge-graph-based statutory relationship modeling (à la `ita-kg`) | Stretch / future work |
 | FR-14 | Support for jurisdictions/treaties beyond India-US | Out of scope |
+| FR-15 | Determination of residential status under Section 6 -- v1 takes "resident in India" as a given input per persona, not a computed fact (see ADR-017) | Out of scope |
 
 ### 2.2 Non-functional requirements
 

@@ -1,0 +1,60 @@
+---
+jurisdiction: India (Income Tax Act, 1961)
+source: Income Tax Department, Ministry of Finance, Government of India -- official consolidated Act text
+source_url: incometaxindia.gov.in (comprehensive consolidated Act PDF, filename "Income-tax-Act-1961_2026_2026-06-18_02-47-37_b9326c_en.pdf", user-uploaded)
+effective_date: base clause long-standing; the remuneration-cap figures below were last revised by Act No. 15 of 2024, w.e.f. 1 April 2025 (AY 2025-26 onward)
+tax_year: valid through FY2025-26 (AY 2026-27) -- the 1961 Act remains in force through this year; from FY2026-27 onward see the Income-tax Act, 2025's Section 35(e) (corpus/india/it-act-2025-section-35e/2026-27.txt), which raises the same caps further and drops the clause-(b)-style split between profession firms and other firms (both classes already collapsed to identical figures under the 1961 Act since the Finance (No. 2) Act, 2009, w.e.f. 1-4-2010).
+retrieved_date: 2026-09-17
+retrieval_method: cross-verified against two sources with one real discrepancy found and resolved -- the user first pasted bare-act text (apparent Indian Kanoon renderer) showing the 2009-era remuneration caps (Rs. 3,00,000 / Rs. 1,50,000). A subsequent direct read of a comprehensive official consolidated Act PDF the user uploaded showed these caps had been further revised to Rs. 6,00,000 / Rs. 3,00,000 by Act No. 15 of 2024, w.e.f. 1-4-2025 -- i.e. the pasted text was stale by one amendment. The text below reflects the current, post-2024-amendment figures, confirmed by direct visual page-read of the PDF (not text extraction alone).
+scope_note: Only clause (b) (firms) is curated here -- this is what Persona E depends on. Clause (a) (TDS-related disallowances on payments to non-residents/outside India) and clause (ba) (AOP/BOI equivalent) exist in the same section but are out of scope for the current persona set.
+key_finding_for_persona_e: Section 40(b) only caps a remuneration deduction that is already being claimed elsewhere in the normal computation (Explanation 3's "book-profit" is computed "in the manner laid down in Chapter IV-D", i.e. ordinary provisions). Section 44ADA(2) (corpus/india/it-act-section-44ada/2025-26.txt) deems all sections-30-to-38 deductions "already given full effect to" within the presumptive 50% figure and allows no further deduction under those sections -- with no proviso carving out partner remuneration. For comparison: Section 44AD(2) (general-business presumptive) has the same "no further deduction" language with no carve-out either, while Section 44AE(3) (goods-carriage presumptive) has an explicit proviso -- "Provided that where the assessee is a firm, the salary and interest paid to its partners shall be deducted from the income computed under sub-section (1) subject to the conditions and limits specified in clause (b) of section 40." The presence of that proviso in 44AE and its absence from both 44AD and 44ADA is textual evidence that the drafters knew how to write this carve-out and chose not to extend it to the professional presumptive scheme. Conclusion used for Persona E: a firm using 44ADA cannot additionally deduct partner remuneration under this clause on top of the presumptive income. See DECISIONS.md ADR-014.
+
+40. Amounts not deductible.
+
+Notwithstanding anything to the contrary in sections 30 to 38, the following amounts shall not be deducted in computing the income chargeable under the head "Profits and gains of business or profession", --
+
+...
+
+(b) in the case of any firm assessable as such, --
+
+(i) any payment of salary, bonus, commission or remuneration, by whatever name called (hereinafter referred to as "remuneration") to any partner who is not a working partner; or
+
+(ii) any payment of remuneration to any partner who is a working partner, or of interest to any partner, which, in either case, is not authorised by, or is not in accordance with, the terms of the partnership deed; or
+
+(iii) any payment of remuneration to any partner who is a working partner, or of interest to any partner, which, in either case, is authorised by, and is in accordance with, the terms of the partnership deed, but which relates to any period (falling prior to the date of such partnership deed) for which such payment was not authorised by, or is not in accordance with, any earlier partnership deed, so, however, that the period of authorisation for such payment by any earlier partnership deed does not cover any period prior to the date of such earlier partnership deed; or
+
+(iv) any payment of interest to any partner which is authorised by, and is in accordance with, the terms of the partnership deed and relates to any period falling after the date of such partnership deed in so far as such amount exceeds the amount calculated at the rate of twelve per cent simple interest per annum; or
+
+(v) any payment of remuneration to any partner who is a working partner, which is authorised by, and is in accordance with, the terms of the partnership deed and relates to any period falling after the date of such partnership deed in so far as the amount of such payment to all the partners during the previous year exceeds the aggregate amount computed as hereunder:--
+
+(a) on the first Rs. 6,00,000 of the book-profit or in case of a loss -- Rs. 3,00,000 or at the rate of 90 per cent of the book-profit, whichever is more;
+
+(b) on the balance of the book-profit -- at the rate of 60 per cent:
+
+Provided that in relation to any payment under this clause to the partner during the previous year relevant to the assessment year commencing on the 1st day of April, 1993, the terms of the partnership deed may, at any time during the said previous year, provide for such payment.
+
+Explanation 1. -- Where an individual is a partner in a firm on behalf, or for the benefit, of any other person (such partner and the other person being hereinafter referred to as "partner in a representative capacity" and "person so represented", respectively), --
+
+(i) interest paid by the firm to such individual otherwise than as partner in a representative capacity, shall not be taken into account for the purposes of this clause;
+
+(ii) interest paid by the firm to such individual as partner in a representative capacity and interest paid by the firm to the person so represented shall be taken into account for the purposes of this clause.
+
+Explanation 2. -- Where an individual is a partner in a firm otherwise than as partner in a representative capacity, interest paid by the firm to such individual shall not be taken into account for the purposes of this clause, if such interest is received by him on behalf, or for the benefit, of any other person.
+
+Explanation 3. -- For the purposes of this clause, "book-profit" means the net profit, as shown in the profit and loss account for the relevant previous year, computed in the manner laid down in Chapter IV-D as increased by the aggregate amount of the remuneration paid or payable to all the partners of the firm if such amount has been deducted while computing the net profit.
+
+Explanation 4. -- For the purposes of this clause, "working partner" means an individual who is actively engaged in conducting the affairs of the business or profession of the firm of which he is a partner.
+
+[Note: the "Rs. 6,00,000" and "Rs. 3,00,000" figures above substitute "Rs. 3,00,000" and "Rs. 1,50,000" respectively, by Act No. 15 of 2024, w.e.f. 1-4-2025 -- the earlier figures themselves substituted still-earlier tiered figures (which differed between "a firm carrying on a profession referred to in section 44AA" and "any other firm") by the Finance (No. 2) Act, 2009, w.e.f. 1-4-2010. Since 2009, there has been no profession-based distinction in this clause -- all firms use the same figures.]
+
+--- Supporting comparison (not this section, cited for Persona E's reasoning -- see key_finding_for_persona_e above) 
+verification_correction (2026-09-20): same issue as corpus/india/it-act-section-44aa/2025-26.txt -- this file's original "direct visual page-read" claim was written before that step was actually performed (179MB source PDF, over the page-image tool's 100MB limit; only pdftotext extraction had been done). Retroactively confirmed the same day via a qpdf-split page excerpt, read directly -- no discrepancy found, including the Rs. 6,00,000/Rs. 3,00,000 footnoted figures.
+---
+
+Section 44AD(2): "Any deduction allowable under the provisions of sections 30 to 38 shall, for the purposes of sub-section (1), be deemed to have been already given full effect to and no further deduction under those sections shall be allowed." [no partner-remuneration proviso]
+
+Section 44AE(3): "Any deduction allowable under the provisions of sections 30 to 38 shall, for the purposes of sub-section (1), be deemed to have been already given full effect to and no further deduction under those sections shall be allowed: Provided that where the assessee is a firm, the salary and interest paid to its partners shall be deducted from the income computed under sub-section (1) subject to the conditions and limits specified in clause (b) of section 40." [explicit carve-out]
+
+Section 44ADA(2) (already in corpus/india/it-act-section-44ada/2025-26.txt): "Any deduction allowable under the provisions of sections 30 to 38 shall, for the purposes of sub-section (1), be deemed to have been already given full effect to and no further deduction under those sections shall be allowed." [no partner-remuneration proviso -- same pattern as 44AD]
+
+Both comparison excerpts (44AD(2), 44AE(3)) directly transcribed from the same comprehensive consolidated Act PDF used for this file, visually confirmed.

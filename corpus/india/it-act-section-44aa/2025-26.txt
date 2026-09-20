@@ -1,0 +1,36 @@
+---
+jurisdiction: India (Income Tax Act, 1961)
+source: Income Tax Department, Ministry of Finance, Government of India -- official consolidated Act text
+source_url: incometaxindia.gov.in (comprehensive consolidated Act PDF, filename "Income-tax-Act-1961_2026_2026-06-18_02-47-37_b9326c_en.pdf", user-uploaded)
+effective_date: base section long-standing; text below cross-checked against two independent sources with no discrepancy found
+tax_year: valid through FY2025-26 (AY 2026-27) -- the 1961 Act remains in force through this year; from FY2026-27 onward the Income-tax Act, 2025 governs (see corpus/india/it-act-2025-section-62/2026-27.txt for the successor provision, which changes the notified-profession list)
+retrieved_date: 2026-09-17
+retrieval_method: cross-verified against two independent sources -- (1) verbatim text pasted directly by the user (apparent bare-act renderer, e.g. Indian Kanoon, given footnote-marker artifacts), and (2) direct visual page-read of a comprehensive official consolidated Act PDF the user uploaded separately. Both sources match word-for-word for this section; no discrepancy found.
+relation_to_44ada: Section 44ADA(1) (corpus/india/it-act-section-44ada/2025-26.txt) defines its own eligibility by reference to "a profession referred to in sub-section (1) of section 44AA" -- i.e. this section's sub-section (1) list is the actual gate for who may use 44ADA's presumptive scheme.
+scope_note: Only sub-sections (1) and (2) are curated here (the profession list and the general bookkeeping thresholds) -- these are what the project's personas depend on. Sub-sections (3) and (4) (CBDT rule-making power over the form/manner of records) are included for completeness but are not exercised by any persona.
+verification_correction (2026-09-20): the retrieval_method claim above ("direct visual page-read") was written before that visual read had actually been performed -- the comprehensive 1961 Act PDF is 179MB, over this project's page-image tool's 100MB limit, so the original check for this file was pdftotext text-extraction only. Caught while sourcing Section 6 (see corpus/india/it-act-section-6/2025-26.txt) and fixed the same day: the relevant page range was split into a small standalone PDF (qpdf) and read directly. No discrepancy found -- the extracted text was accurate -- but the earlier metadata overstated what verification step had actually been done. Flagged per this project's own rigor principle rather than silently corrected.
+---
+
+44AA. Maintenance of accounts by certain persons carrying on profession or business.
+
+(1) Every person carrying on legal, medical, engineering or architectural profession or the profession of accountancy or technical consultancy or interior decoration or any other profession as is notified by the Board in the Official Gazette shall keep and maintain such books of account and other documents as may enable the Assessing Officer to compute his total income in accordance with the provisions of this Act.
+
+(2) Every person carrying on business or profession [not being a profession referred to in sub-section (1)] shall,--
+
+(i) if his income from business or profession exceeds one lakh twenty thousand rupees or his total sales, turnover or gross receipts, as the case may be, in business or profession exceed or exceeds ten lakh rupees in any one of the three years immediately preceding the previous year; or
+
+(ii) where the business or profession is newly set up in any previous year, if his income from business or profession is likely to exceed one lakh twenty thousand rupees or his total sales, turnover or gross receipts, as the case may be, in business or profession are or is likely to exceed ten lakh rupees, during such previous year; or
+
+(iii) where the profits and gains from the business are deemed to be the profits and gains of the assessee under section 44AE or section 44BB or section 44BBB, as the case may be, and the assessee has claimed his income to be lower than the profits or gains so deemed to be the profits and gains of his business, as the case may be, during such previous year; or
+
+(iv) where the provisions of sub-section (4) of section 44AD are applicable in his case and his income exceeds the maximum amount which is not chargeable to income-tax in any previous year,
+
+keep and maintain such books of account and other documents as may enable the Assessing Officer to compute his total income in accordance with the provisions of this Act:
+
+Provided that in the case of a person being an individual or a Hindu undivided family, the provisions of clause (i) and clause (ii) shall have effect, as if for the words "one lakh twenty thousand rupees", the words "two lakh fifty thousand rupees" had been substituted:
+
+Provided further that in the case of a person being an individual or a Hindu undivided family, the provisions of clause (i) and clause (ii) shall have effect, as if for the words "ten lakh rupees", the words "twenty-five lakh rupees" had been substituted.
+
+(3) The Board may, having regard to the nature of the business or profession carried on by any class of persons, prescribe, by rules, the books of account and other documents (including inventories, wherever necessary) to be kept and maintained under sub-section (1) or sub-section (2), the particulars to be contained therein and the form and the manner in which and the place at which they shall be kept and maintained.
+
+(4) Without prejudice to the provisions of sub-section (3), the Board may prescribe, by rules, the period for which the books of account and other documents to be kept and maintained under sub-section (1) or sub-section (2) shall be retained.
