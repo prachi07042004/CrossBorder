@@ -1,14 +1,24 @@
-"""Pydantic models for the deterministic tax engine -- Phase 1, first increment.
+"""Pydantic models for the deterministic tax engine.
 
-Scope of this increment (see PROGRESS.md, 2026-09-20): the Section 44ADA /
-Income-tax Act 2025 Section 58 (Table Sl. No. 3) presumptive-income
-computation only, covering Personas A, B1, B2, and G from docs/personas.md.
-DTAA Article 15/25 logic (Personas C, D), partnership-firm remuneration
-interaction (Persona E), and misrouting to Section 44AD / Section 58 Sl. No. 1
-for an ineligible profession (Persona F) are NOT yet implemented -- see the
-"Next" note in PROGRESS.md. Fields needed only for those are deliberately
-left out of these models rather than added unused, per Implementation_Plan.md
-Section 4's "don't over-engineer" scoping.
+Increment 1 (2026-09-20): Section 44ADA / Income-tax Act 2025 Section 58
+(Table Sl. No. 3) presumptive-income computation, covering Personas A, B1,
+B2, and G from docs/personas.md.
+
+Increment 2 (2026-09-20, cont.): DTAA Article 15 (Independent Personal
+Services) exposure and Article 25 (relief from double taxation), covering
+Personas C and D. Article 15 is fully computed. Article 25 is represented
+only as far as docs/personas.md's own Persona C file goes: the credit
+mechanism (min(US tax paid, India tax attributable)) is modeled, but both
+inputs to that cap are left explicitly pending rather than guessed --
+India's progressive slab-rate computation is separate not-yet-started
+Phase 1 work, and the US-side figure needs 26 U.S.C. Section 871(b)/872 +
+Form 1040-NR research this project has not done (ADR-012). See PROGRESS.md.
+
+Partnership-firm remuneration interaction (Persona E) and misrouting to
+Section 44AD / Section 58 Sl. No. 1 for an ineligible profession (Persona F)
+are NOT yet implemented -- see the "Next" note in PROGRESS.md. Fields needed
+only for those are deliberately left out of these models rather than added
+unused, per Implementation_Plan.md Section 4's "don't over-engineer" scoping.
 """
 from __future__ import annotations
 
@@ -115,3 +125,107 @@ class PresumptiveIncomeResult(BaseModel):
         "qualifies_for_presumptive_scheme is True.",
     )
     citation: str | None = Field(default=None, description="The specific corpus document this figure traces to.")
+
+
+class Article15Branch(str, Enum):
+    """Which paragraph of Article 15(1), if any, gives the US taxing rights
+    over the India-resident's professional income. See
+    corpus/treaty/india-us-dtaa/article-15.txt.
+    """
+
+    NOT_TRIGGERED = "not_triggered"  # income taxable only in India -- para 1's default rule
+    NINETY_DAY = "article_15_1_b_ninety_day"  # para 1(b) -- all-or-nothing, no attribution limitation
+    FIXED_BASE = "article_15_1_a_fixed_base"  # para 1(a) -- only the fixed-base-attributable portion
+
+
+class Article15Input(BaseModel):
+    """Facts needed to determine Article 15 exposure for one tax year, on top
+    of an already-computed PresumptiveIncomeResult. Matches Persona C's and
+    Persona D's fact patterns in docs/personas.md.
+    """
+
+    persona_label: str
+    presumptive_income: Decimal = Field(
+        gt=0,
+        description="The India-source professional income already computed by compute_presumptive_income() -- "
+        "Article 15 exposure is assessed against this figure, not against raw gross_receipts.",
+    )
+    gross_receipts: Decimal = Field(
+        gt=0,
+        description="Same gross_receipts used to produce presumptive_income -- needed as the base of the "
+        "fixed-base attribution ratio (see fixed_base_attributable_gross_receipts). Not used at all for the "
+        "90-day branch, which is all-or-nothing.",
+    )
+    us_days_present: int = Field(ge=0, description="Aggregate days physically present in the US in the tax year.")
+    has_fixed_base_in_us: bool = Field(
+        description="Whether a fixed base is 'regularly available' to the assessee in the US, per Article "
+        "15(1)(a). This engine does not itself determine what counts as a fixed base -- the caller resolves that "
+        "fact; this field is the resolved answer."
+    )
+    fixed_base_attributable_gross_receipts: Decimal = Field(
+        default=Decimal(0),
+        ge=0,
+        description="The slice of gross_receipts attributable to work actually routed through the US fixed base "
+        "(Persona D: Rs. 15,00,000 of Rs. 40,00,000, one of two client engagements). Ignored if "
+        "has_fixed_base_in_us is False or if the 90-day branch triggers instead (see ADR-013 for why "
+        "presumptive_income -- a single lump deemed figure -- is pro-rated by this same ratio rather than "
+        "decomposed some other way; this is a documented modeling choice, not settled law).",
+    )
+
+    @model_validator(mode="after")
+    def _attributable_not_more_than_gross(self) -> Article15Input:
+        if self.fixed_base_attributable_gross_receipts > self.gross_receipts:
+            raise ValueError("fixed_base_attributable_gross_receipts cannot exceed gross_receipts")
+        return self
+
+
+class Article15Result(BaseModel):
+    persona_label: str
+    branch_triggered: Article15Branch
+    india_taxable_income: Decimal = Field(
+        description="Always equal to presumptive_income -- Article 15's exception clause only ever ADDS US "
+        "taxing rights on top of India's; it never removes India's own right to tax the same income."
+    )
+    us_taxable_income: Decimal = Field(
+        description="0 if branch_triggered is NOT_TRIGGERED. The full presumptive_income if NINETY_DAY (para "
+        "1(b) carries no attribution limitation in the treaty text). The pro-rated attributable slice if "
+        "FIXED_BASE."
+    )
+    attribution_ratio: Decimal | None = Field(
+        default=None, description="fixed_base_attributable_gross_receipts / gross_receipts -- only set for the "
+        "FIXED_BASE branch, kept on the result for audit/citation purposes."
+    )
+    citation: str
+
+
+class Article25ReliefResult(BaseModel):
+    """Represents, but does not fully compute, Article 25(2)(a) relief.
+
+    Per Persona C's own file in docs/personas.md: the credit is
+    min(US tax paid, India tax attributable to the US-taxable income), and
+    right now this engine can supply neither half of that cap with a
+    verified figure. This result type makes that gap explicit rather than
+    inventing a number -- WORKING_PRINCIPLES.md rule 4.
+    """
+
+    persona_label: str
+    relief_applicable: bool = Field(description="False if us_taxable_income is 0 -- no double taxation to relieve.")
+    us_taxable_income: Decimal = Field(description="Carried over from the Article15Result this was computed from.")
+    computation_status: str = Field(
+        description="'not_applicable' (relief_applicable is False), or 'pending_inputs' -- both cap inputs "
+        "(US tax paid, India tax attributable) are unverified, see pending_reason."
+    )
+    pending_reason: str | None = None
+    us_tax_paid: Decimal | None = Field(
+        default=None, description="Always None in this increment -- needs 26 U.S.C. Section 871(b)/872 + Form "
+        "1040-NR research not yet done (ADR-012)."
+    )
+    india_tax_attributable: Decimal | None = Field(
+        default=None, description="Always None in this increment -- needs India's progressive slab-rate "
+        "computation, separate not-yet-started Phase 1 work."
+    )
+    credit_amount: Decimal | None = Field(
+        default=None, description="Always None in this increment -- cannot be computed until both cap inputs "
+        "above are available."
+    )
+    citation: str
